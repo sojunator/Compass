@@ -3,7 +3,7 @@ from flask import Blueprint
 from app import db
 
 from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func
-from .models import Session
+from .models import Session, SessionMission
 
 import collections
 import json
@@ -26,18 +26,19 @@ def get_sessions():
             
     sessions = {}
     for mission in session_missions:
-        year, week, __ = mission.created.isocalendar()
+        year, week, __ = mission.created.isocalendar() # We only want the week and the year
         
         key = (year, week)
-        if key not in sessions:
+        if key not in sessions: # Create a new key
             sessions[key] = Session()
-            
             player_count = (db.session.query(func.count(Player.id)).join(Mission).filter(Mission.id == mission.id).first())[0]
-            sessions[key].add_mission(mission, player_count)
-        else:
+            temp_mission = SessionMission(mission, player_count)
+            sessions[key].add_mission(temp_mission)
+        else: # use existing key
             player_count = (db.session.query(func.count(Player.id)).join(Mission).filter(Mission.id == mission.id).first())[0]
-            sessions[key].add_mission(mission, player_count)
+            temp_mission = SessionMission(mission, player_count)
+            sessions[key].add_mission(temp_mission)
             
-    sorted_sessions = sorted(sessions.items(), key=lambda t: t[0]) 
+    sorted_sessions = sorted(sessions.items(), key=lambda t: t[0]) # sort shit out
       
     return str(sorted_sessions)
