@@ -1,6 +1,14 @@
 from flask import Blueprint
+
 from app import db
-from .models import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect
+
+from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func
+from .models import Session
+
+import collections
+import json
+
+
 
 mod_parser = Blueprint('parser', __name__, url_prefix='/parser',
                        template_folder='templates')
@@ -14,7 +22,7 @@ def get_sessions():
     for mission in missions:
         # If on a session date (Saturday going on Sunday for A2)
         if (mission.created.weekday() in [5, 6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5)):
-            session_mission.append(mission)
+            session_missions.append(mission)
             
     sessions = {}
     for mission in session_missions:
@@ -22,8 +30,14 @@ def get_sessions():
         
         key = (year, week)
         if key not in sessions:
-            sessions[key] = [mission]
-        else:
-            sessions[key].append(mission)
+            sessions[key] = Session()
             
-    return str(sessions)
+            player_count = (db.session.query(func.count(Player.id)).join(Mission).filter(Mission.id == mission.id).first())[0]
+            sessions[key].add_mission(mission, player_count)
+        else:
+            player_count = (db.session.query(func.count(Player.id)).join(Mission).filter(Mission.id == mission.id).first())[0]
+            sessions[key].add_mission(mission, player_count)
+            
+    sorted_sessions = sorted(sessions.items(), key=lambda t: t[0]) 
+      
+    return str(sorted_sessions)
