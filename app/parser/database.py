@@ -2,9 +2,10 @@ from app import db
 from sqlalchemy import Column, ForeignKey, Integer, String, REAL, DateTime, Boolean, func
 from sqlalchemy.orm import relationship
 
+
 class Mission(db.Model):
-    __tablename__ = "mission" 
-        
+    __tablename__ = "mission"
+
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     mission_name = Column(String(100), nullable=False)
@@ -13,10 +14,11 @@ class Mission(db.Model):
     safety_timer_ingame = Column(REAL)
     end = Column(String(100))
     end_ingame = Column(REAL)
-    
+
     def __repr__(self):
-       return "{0} - {1}".format(self.mission_name, self.world_name) 
-    
+        return "{0} - {1}".format(self.mission_name, self.world_name)
+
+
 class Player(db.Model):
     __tablename__ = 'player'
 
@@ -34,6 +36,7 @@ class Player(db.Model):
 
     mission = relationship(Mission)
 
+
 class AIMovement(db.Model):
     __tablename__ = 'ai_movement'
 
@@ -49,7 +52,8 @@ class AIMovement(db.Model):
     waypoint_type = Column(String(20), nullable=False)
 
     mission = relationship(Mission)
- 
+
+
 class PlayerMovement(db.Model):
     __tablename__ = 'player_movement'
 
@@ -62,6 +66,7 @@ class PlayerMovement(db.Model):
 
     player = relationship(Player)
 
+
 class PlayerDisconnect(db.Model):
     __tablename__ = 'disconnect'
 
@@ -72,4 +77,4 @@ class PlayerDisconnect(db.Model):
     player_uid = Column(String(100), nullable=False)
     player_name = Column(String(100), nullable=False)
 
-    mission = relationship(Mission)    
+    mission = relationship(Mission)

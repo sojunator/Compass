@@ -4,18 +4,13 @@
     <title>Arma 2 sessions</title>
 </head>
 <body>
-<table>
-{% for SessionMissions in sessions %} # This loop is going over a list of tuples
-    # SessionMissions = ((2014, 46), Session())
-   {% for date, session in SessionMissions %}
-      <h1>Date: {{date}}</h1>
-      <h2>Session: {{session}}</h2>
-   {% endfor %}
-{% endfor %}
-</table>
-
     <h1>Arma 2 sessions</h1>
 
-    {# a comment #}
+    <table>
+    {% for session in sessions %}
+        <h1>Date: {{session[0]}}</h1>
+        <h2>Session: {{session[1]}}</h2>
+    {% endfor %}
+    </table>
 </body>
 </html>
