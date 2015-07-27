@@ -7,7 +7,11 @@ DEBUG = True
 
 # Define the database - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'ark_a2.sqlite')
+#SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'ark_a2.sqlite')
+SQLALCHEMY_BINDS = {
+    'ark_a2':        'sqlite:///' + os.path.join(BASE_DIR, 'ark_a2.sqlite'),
+    'ast':           'sqlite:///' + os.path.join(BASE_DIR, 'ast')
+}
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is

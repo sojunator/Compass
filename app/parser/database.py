@@ -5,7 +5,8 @@ from sqlalchemy.orm import relationship
 
 class Mission(db.Model):
     __tablename__ = "mission"
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     mission_name = Column(String(100), nullable=False)
@@ -21,7 +22,8 @@ class Mission(db.Model):
 
 class Player(db.Model):
     __tablename__ = 'player'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -39,7 +41,8 @@ class Player(db.Model):
 
 class AIMovement(db.Model):
     __tablename__ = 'ai_movement'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -56,7 +59,8 @@ class AIMovement(db.Model):
 
 class PlayerMovement(db.Model):
     __tablename__ = 'player_movement'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -69,7 +73,8 @@ class PlayerMovement(db.Model):
 
 class PlayerDisconnect(db.Model):
     __tablename__ = 'disconnect'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -78,3 +83,21 @@ class PlayerDisconnect(db.Model):
     player_name = Column(String(100), nullable=False)
 
     mission = relationship(Mission)
+
+class AstPlayer(db.Model):
+    __tablename__ = 'astplayer'
+    __bind_key__ = 'ast'
+    
+    id = Column(Integer, primary_key=True)
+    #created = Column(DateTime, nullable=False)
+    player_uid = Column(String(100), nullable=False)
+    player_name = Column(String(100), nullable=False)
+    #missions_played = Column(Integer, nullable=False)
+    
+    def __init__(self, name, uid):
+        #self.missions_played = 1
+        self.player_name = name
+        self.player_uid = uid
+    
+    def increase_missions_played(self):
+        self.missions_played = self.missions_played + 1

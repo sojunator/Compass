@@ -27,4 +27,6 @@ app.register_blueprint(mod_parser)
 app.register_blueprint(mod_players)
 
 
-db.create_all()
+
+db.create_all(bind=['ark_a2'])
+db.create_all(bind=['ast'])
