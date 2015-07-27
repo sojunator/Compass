@@ -5,7 +5,6 @@ class Session:
         
     def add_mission(self, mission): 
         self.missions.append(mission)
-        self.update_player_peak()
         
     def update_player_peak(self):               
         for SessionMission in self.missions:
@@ -13,6 +12,7 @@ class Session:
                 self.playerpeak = SessionMission.playercount
     
     def __repr__(self):
+        self.update_player_peak()
         return "A peak of {0} - {1}".format(self.playerpeak, self.missions)
  
 class SessionMission:
@@ -22,3 +22,8 @@ class SessionMission:
     
     def __repr__(self):
         return "{0} {1}".format(self.mission, self.playercount)
+        
+class Player:
+    def __init(self, name, rank):
+        self.name = name
+    
