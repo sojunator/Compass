@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
     <title>Arma 2 sessions</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;    
+        }
+    </style>
 </head>
 <body>
     <h1>Arma 2 sessions</h1>
 
-    <table>
-    {% for session in sessions %}
-        <h1>Date: {{session[0]}}</h1>
-        <h2>Session: {{session[1]}}</h2>
+    <table style="width:100%">
+    {% for session in sessions %} {# Session var name needs to be renamed, badly - IT IS NOT THE OBJECT session, its a tuplet #}
+        <tr>
+            <td width="6%"Date>: {{session[0]}}</td>
+            <td>Session: {{session[1]}}</td>
+        </tr>
     {% endfor %}
     </table>
 </body>

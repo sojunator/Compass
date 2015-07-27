@@ -19,8 +19,12 @@ db = SQLAlchemy(app)
     
 # Import Blueprint modules.
 from app.parser.routes import mod_parser
+from app.parser.routes import mod_players
+
 
 # Register Blueprint(s)
 app.register_blueprint(mod_parser)
+app.register_blueprint(mod_players)
+
 
 db.create_all()

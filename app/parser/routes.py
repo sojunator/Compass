@@ -49,3 +49,21 @@ def get_sessions():
     sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0])
 
     return render_template('parser.html', sessions=sorted_sessions)
+
+
+mod_players = Blueprint('players', __name__, url_prefix='/players',
+                       template_folder='templates')
+
+
+# Section for handling missions and sessions
+@mod_players.route('/')
+def get_players():    
+    players = db.session.query(Player).all()
+    
+    players_in_session = []
+    
+    for player in players:
+        if ((player.created.weekday() in [5, 6]) and ((player.created.hour >= 18) or (player.created.hour <= 5))):
+            players_in_session.append(player.player_name)
+    
+    return str(players_in_session)
