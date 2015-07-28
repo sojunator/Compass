@@ -101,3 +101,6 @@ class AstPlayer(db.Model):
     
     def increase_missions_played(self):
         self.missions_played = self.missions_played + 1
+        
+    def __repr__(self):
+        return "{0} - id {1}".format(self.player_name, self.player_uid)
