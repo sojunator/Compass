@@ -7,6 +7,7 @@ from .models import Session, SessionMission
 
 import collections
 import json
+import itertools
 
 mod_parser = Blueprint('parser', __name__, url_prefix='/parser',
                        template_folder='templates')
@@ -62,26 +63,21 @@ def get_players():
     # so that everything from AstPlayer table will be fetched only once and then compared for new entries from session
     # to minimize database calls
     
-    players = db.session.query(Player).all() # get all players in ark_a2 db
+    players = db.session.query(Player).all() # get all players in ark_a2 db - tuplet
     
-    players_in_session = [] # will contain players objects from sessions
+    players_in_session = [] # will contain players objects from sessions - list 
     
-    players_in_database = db.session.query(AstPlayer.player_name).all()
-    list(players_in_database)
+    players_in_database = list(itertools.chain(*db.session.query(AstPlayer.player_name).all())) # tuplet
+    
     
     for player in players:
         if ((player.created.weekday() in [5, 6]) and ((player.created.hour >= 18) or (player.created.hour <= 5)) and player.player_name != "HC"):
             players_in_session.append(player)    
-            if (players_in_session[-1].player_name not in players_in_database): # 
+            if (players_in_session[-1].player_name not in players_in_database):  
                 temp_player = AstPlayer(player.player_name, player.player_uid) # create new player
                 players_in_database.append(player.player_name)
                 db.session.add(temp_player)    
-
-                
-    db.session.commit()        
+        
+    db.session.commit()   
+    players_in_database = db.session.query(AstPlayer.player_name).all() # tuplet    
     return str(players_in_database)
-
-    
-           # if (db.session.query(AstPlayer).filter(player.player_uid==AstPlayer.player_uid).first() is None):
-            #    temp_player = AstPlayer(player.player_name, player.player_uid) # create new player
-            #    db.session.add(temp_player)    
