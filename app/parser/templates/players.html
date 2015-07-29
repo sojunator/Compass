@@ -22,6 +22,7 @@
             <td>uid: {{player.player_uid}}</td>
             <td>Played: {{player.missions_played}}</td>
             <td>Last: {{player.last_played}}</td>
+            <td>Knecapping: {% if player.danger_zone %}<font color="red">True</font>  {% endif %}</td>
         </tr>
     {% endfor %}
     </table>
