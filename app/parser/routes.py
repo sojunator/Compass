@@ -25,7 +25,9 @@ def get_sessions():
         # If on a session date (Saturday going on Sunday for A2)
         if ((mission.created.weekday() in [5, 6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5))):
             session_missions.append(mission)
-
+            
+    print (len(session_missions)) 
+    
     sessions_unsorted = {}
     for mission in session_missions:
         year, week, __ = mission.created.isocalendar()
@@ -35,14 +37,14 @@ def get_sessions():
             sessions_unsorted[key] = Session()
 
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id)
+                            .join(Mission).filter(Mission.id == mission.id, Player.is_jip == False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id)
+                            .join(Mission).filter(Mission.id == mission.id, Player.is_jip == False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
@@ -77,7 +79,8 @@ def get_players():
         if ((player.created.weekday() in [5, 6]) and ((player.created.hour >= 18) or (player.created.hour <= 5)) and (player.player_name not in ["HC", "Error: No unit"])):
             players_in_session.append(player)    
             if (players_in_session[-1].player_name not in players_in_database):  # Since the player was in the session, lets see if he is new or not
-                missions_played = (db.session.query(Player).filter_by(player_name=players_in_session[-1].player_name, is_jip=False).count())
+                missions_played = (db.session.query(Player)
+                    .filter_by(player_name=players_in_session[-1].player_name, is_jip=False).count())
                 temp_player = AstPlayer(player.player_name, player.player_uid, missions_played) # create new player
                 players_in_database.append(player.player_name)
                 db.session.add(temp_player)    
