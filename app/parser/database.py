@@ -92,10 +92,10 @@ class AstPlayer(db.Model):
     #created = Column(DateTime, nullable=False)
     player_uid = Column(String(100), nullable=False)
     player_name = Column(String(100), nullable=False)
-    #missions_played = Column(Integer, nullable=False)
+    missions_played = Column(Integer, nullable=False)
     
-    def __init__(self, name, uid):
-        #self.missions_played = 1
+    def __init__(self, name, uid, missions_played):
+        self.missions_played = missions_played
         self.player_name = name
         self.player_uid = uid
     
