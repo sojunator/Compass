@@ -4,6 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 import logging
 
+
 # Define the WSGI application object
 app = Flask(__name__)
 
@@ -30,3 +31,8 @@ app.register_blueprint(mod_players)
 
 db.create_all(bind=['ark_a2'])
 db.create_all(bind=['ast'])
+
+
+# pass into database, its first run
+from app.loader import loader
+loader.loader()
