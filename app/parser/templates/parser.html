@@ -2,21 +2,12 @@
 <html lang="en">
 <head>
     <title>Arma 2 sessions</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 5px;
-            text-align: left;    
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
     <h1>Arma 2 sessions</h1>
 
-    <table style="width:100%">
+    <table class="table table-bordered">
     {% for session in sessions %} {% set date = session[0]  %}
         <tr>
             <td width="7.5%">Date: <a href="session.html={{date}}"> {{session[0]}} </a></td>

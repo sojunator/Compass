@@ -17,7 +17,7 @@
     </thead>
     {% for player in players %}  
         <tr {% if player.danger_zone %} class="danger" {% endif %} >
-            <td width="14%">Nr {{player.id}} :{{player.player_name}}</td>
+            <td width="14%">Nr {{player.id}} : <a href="/players/{{player.player_name}}"> {{player.player_name}}</a></td>
             <td>{{player.player_rank}}</td>
             <td>{{player.missions_played}}</td>
             <td>{{player.last_played}}</td>

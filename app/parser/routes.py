@@ -10,6 +10,7 @@ from .models import Session, SessionMission
 import time
 import collections
 import json
+import requests
 
 mod_parser = Blueprint('parser', __name__, url_prefix='/parser',
                        template_folder='templates')
@@ -59,7 +60,16 @@ mod_players = Blueprint('players', __name__, url_prefix='/players',
 
 
 # Section for getting players from ark_a2 and push them into AstPlayer table
-@mod_players.route('/')
-def display_players():    
+@mod_players.route('/', methods=['GET', 'POST'])
+def display_players(): 
     players_in_database = db.session.query(AstPlayer).order_by(collate(AstPlayer.last_played, 'NOCASE')).all()
     return render_template('players.html', players=players_in_database)
+
+
+
+
+# Section for getting players from ark_a2 and push them into AstPlayer table
+@mod_players.route('/<username>')
+def display_one_player(username): 
+    return 'User %s' % username
+    
