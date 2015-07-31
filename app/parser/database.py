@@ -92,9 +92,11 @@ class AstPlayer(db.Model):
     #created = Column(DateTime, nullable=False)
     player_uid = Column(String(100), nullable=False)
     player_name = Column(String(100), nullable=False)
+    player_rank = Column(String(100), nullable=False)
     missions_played = Column(Integer, nullable=False)
     last_played = Column(DateTime, nullable=False)
     danger_zone = Column(Boolean, nullable=False)
+    
         
     def __repr__(self):
         return "{0} - id {1}".format(self.player_name, self.player_uid)

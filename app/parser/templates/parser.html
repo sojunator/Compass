@@ -17,9 +17,9 @@
     <h1>Arma 2 sessions</h1>
 
     <table style="width:100%">
-    {% for session in sessions %} {# Session var name needs to be renamed, badly - IT IS NOT THE OBJECT session, its a tuplet #}
+    {% for session in sessions %} {% set date = session[0]  %}
         <tr>
-            <td width="6.5%">Date: {{session[0]}}</td>
+            <td width="7.5%">Date: <a href="session.html={{date}}"> {{session[0]}} </a></td>
             <td>Session: {{session[1]}}</td>
         </tr>
     {% endfor %}

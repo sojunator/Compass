@@ -2,27 +2,26 @@
 <html lang="en">
 <head>
     <title>Arma 2 players</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 5px;
-            text-align: left;    
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
     <h1>Arma 2 players</h1>
-    <table style="width:100%">
-    {% for player in players %} 
+    <table class="table table-bordered">
+        <thead>
         <tr>
-            <td width="14%">Player nr {{player.id}} :{{player.player_name}}</td>
-            <td>uid: {{player.player_uid}}</td>
-            <td>Played: {{player.missions_played}}</td>
-            <td>Last: {{player.last_played}}</td>
-            <td>Knecapping: {% if player.danger_zone %}<font color="red">True</font>  {% endif %}</td>
+            <th>Username</th>
+            <th>Rank</th>
+            <th>Missions played</th>
+            <th>Last played</th>
+        </tr>
+    </thead>
+    {% for player in players %}  
+        <tr {% if player.danger_zone %} class="danger" {% endif %} >
+            <td width="14%">Nr {{player.id}} :{{player.player_name}}</td>
+            <td>{{player.player_rank}}</td>
+            <td>{{player.missions_played}}</td>
+            <td>{{player.last_played}}</td>
+
         </tr>
     {% endfor %}
     </table>

@@ -25,8 +25,6 @@ def get_sessions():
         # If on a session date (Saturday going on Sunday for A2)
         if ((mission.created.weekday() in [5, 6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5))):
             session_missions.append(mission)
-            
-    print (len(session_missions)) 
     
     sessions_unsorted = {}
     for mission in session_missions:
