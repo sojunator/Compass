@@ -5,7 +5,8 @@ from sqlalchemy.orm import relationship
 
 class Mission(db.Model):
     __tablename__ = "mission"
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     mission_name = Column(String(100), nullable=False)
@@ -21,7 +22,8 @@ class Mission(db.Model):
 
 class Player(db.Model):
     __tablename__ = 'player'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -39,7 +41,8 @@ class Player(db.Model):
 
 class AIMovement(db.Model):
     __tablename__ = 'ai_movement'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -56,7 +59,8 @@ class AIMovement(db.Model):
 
 class PlayerMovement(db.Model):
     __tablename__ = 'player_movement'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -69,7 +73,8 @@ class PlayerMovement(db.Model):
 
 class PlayerDisconnect(db.Model):
     __tablename__ = 'disconnect'
-
+    __bind_key__ = 'ark_a2'
+    
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False)
     created_ingame = Column(REAL, nullable=False)
@@ -78,3 +83,25 @@ class PlayerDisconnect(db.Model):
     player_name = Column(String(100), nullable=False)
 
     mission = relationship(Mission)
+
+class AstPlayer(db.Model):
+    __tablename__ = 'astplayer'
+    __bind_key__ = 'ast'
+    
+    id = Column(Integer, primary_key=True)
+    #created = Column(DateTime, nullable=False)
+    player_uid = Column(String(100), nullable=False)
+    player_name = Column(String(100), nullable=False)
+    player_rank = Column(String(100), nullable=False)
+    played_leader = Column(Integer, nullable=False)
+    staff_notes = Column(String, nullable=False)
+    missions_played = Column(Integer, nullable=False)
+    last_mission = Column(String, nullable=False)
+    last_played = Column(DateTime, nullable=False)
+    danger_zone = Column(Boolean, nullable=False)
+    deaths = Column(Integer, nullable=False)
+
+    
+        
+    def __repr__(self):
+        return "{0} - id {1}".format(self.player_name, self.player_uid)

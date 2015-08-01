@@ -1,12 +1,17 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for, request, Response
+from sqlalchemy import desc
+from sqlalchemy.sql import collate
+from functools import wraps
 
 from app import db
 
-from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func
+from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, AstPlayer
 from .models import Session, SessionMission
 
+import time
 import collections
 import json
+
 
 mod_parser = Blueprint('parser', __name__, url_prefix='/parser',
                        template_folder='templates')
@@ -22,7 +27,7 @@ def get_sessions():
         # If on a session date (Saturday going on Sunday for A2)
         if ((mission.created.weekday() in [5, 6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5))):
             session_missions.append(mission)
-
+    
     sessions_unsorted = {}
     for mission in session_missions:
         year, week, __ = mission.created.isocalendar()
@@ -32,20 +37,25 @@ def get_sessions():
             sessions_unsorted[key] = Session()
 
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id)
+                            .join(Mission).filter(Mission.id is mission.id, 
+                                                    Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id)
+                            .join(Mission).filter(Mission.id is mission.id, 
+                                                    Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
             sessions_unsorted[key].add_mission(temp_mission)
 
-    # Sort the dictionary and only retreive.
+    # Sort the dictionary and only retrieve.
     sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0])
 
     return render_template('parser.html', sessions=sorted_sessions)
+
+
+

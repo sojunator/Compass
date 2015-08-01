@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <title>Arma 2 sessions</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
     <h1>Arma 2 sessions</h1>
 
-    <table>
-    {% for session in sessions %}
-        <h1>Date: {{session[0]}}</h1>
-        <h2>Session: {{session[1]}}</h2>
+    <table class="table table-bordered">
+    {% for session in sessions %} {% set date = session[0]  %}
+        <tr>
+            <td width="7.5%">Date: <a href="session.html={{date}}"> {{session[0]}} </a></td>
+            <td>Session: {{session[1]}}</td>
+        </tr>
     {% endfor %}
     </table>
 </body>

@@ -24,7 +24,3 @@ class SessionMission:
     def __repr__(self):
         return "{0} {1}".format(self.mission, self.playercount)
 
-
-class Player:
-    def __init(self, name, rank):
-        self.name = name
