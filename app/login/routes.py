@@ -11,7 +11,6 @@ mod_login = Blueprint('login', __name__, url_prefix='/',
                        template_folder='templates')
 
 
-
 @mod_login.route('/')
 def landing_page():
         return render_template('login.html')
