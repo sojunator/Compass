@@ -22,8 +22,9 @@ db = SQLAlchemy(app)
     
 # Import Blueprint modules.
 from app.parser.routes import mod_parser
-from app.parser.routes import mod_players
-from app.parser.routes import mod_login
+from app.players.routes import mod_players
+from app.login.routes import mod_login
+
 
 ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_path='/static')
 

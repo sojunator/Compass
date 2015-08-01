@@ -37,14 +37,16 @@ def get_sessions():
             sessions_unsorted[key] = Session()
 
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id, Player.is_jip == False)
+                            .join(Mission).filter(Mission.id is mission.id, 
+                                                    Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id == mission.id, Player.is_jip == False)
+                            .join(Mission).filter(Mission.id is mission.id, 
+                                                    Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
@@ -56,63 +58,4 @@ def get_sessions():
     return render_template('parser.html', sessions=sorted_sessions)
 
 
-mod_players = Blueprint('players', __name__, url_prefix='/players',
-                       template_folder='templates')
 
-
-# Section for getting players from ark_a2 and push them into AstPlayer table
-@mod_players.route('/')
-def display_players():
-    players_in_database = db.session.query(AstPlayer).order_by(collate(AstPlayer.last_played, 'NOCASE')).all()
-    return render_template('players.html', players=players_in_database)
-
-@mod_players.route('/submit/<username>', methods=['POST'])
-def submit_notes(username):
-    if username is None:
-        return redirect(url_for('.display_players'))
-    
-    notes = request.form['notes']
-    print("The username",username,"The notes",notes)
-
-    player = db.session.query(AstPlayer).filter(AstPlayer.player_name == username).first()
-    
-    player.staff_notes = notes
-    
-    db.session.commit()
-    
-
-    
-    return redirect(url_for('.display_players'))
-        
-
-# Section for getting players from ark_a2 and push them into AstPlayer table
-@mod_players.route('/<username>')
-def display_one_player(username): 
-    displayed_player = db.session.query(AstPlayer).filter(AstPlayer.player_name == username).first()
-    all_players_arma = db.session.query(Player).filter(Player.player_name == username).all() 
-    selected_player_arma = [player for player in all_players_arma if ((player.created.weekday() in [5, 6]) and ((player.created.hour >= 18) or (player.created.hour <= 5)) and (player.is_jip == False) and (player.player_name == username))]
-    
-    player_roles = []
-    
-    for player in selected_player_arma:
-            player_roles.append(player.hull_gear_class)
-    
-    unique_roles = set(player_roles)
-    
-    data = dict.fromkeys(unique_roles, 0)
-    
-    for role in player_roles:
-        data[role] = (data[role] + 1)
-    
-    
-    return render_template('profile.html', player=displayed_player, data=data)
-
-
-mod_login = Blueprint('login', __name__, url_prefix='/',
-                       template_folder='templates')
-
-
-
-@mod_login.route('/')
-def landing_page():
-        return render_template('login.html')
