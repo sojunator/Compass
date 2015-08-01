@@ -112,7 +112,5 @@ class AstPlayer(db.Model):
     def __eq__(self, other):
         return self.player_name == other.player_name
 
-    
-        
     def __repr__(self):
         return "{0} - id {1}".format(self.player_name, self.player_uid)

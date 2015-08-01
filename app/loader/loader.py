@@ -57,7 +57,7 @@ def insert_players():
             db.session.add(ast_player)
         else:
             ast_player = (db.session.query(AstPlayer)
-                          .filter(AstPlayer.player_uid == player.player_uid)
+                          .filter(AstPlayer.player_name == player.player_name)
                           .first())
 
             ast_player.missions_played += 1
