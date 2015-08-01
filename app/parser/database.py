@@ -41,7 +41,7 @@ class Player(db.Model):
     # Equality comparison is overloaded, as we
     # need to compare Player to AstPlayer later on.
     def __eq__(self, other):
-        return self.player_uid == other.player_uid
+        return self.player_name == other.player_name
 
 
 class AIMovement(db.Model):
@@ -110,7 +110,7 @@ class AstPlayer(db.Model):
     # Equality comparison is overloaded, as we
     # need to compare Player to AstPlayer later on.
     def __eq__(self, other):
-        return self.player_uid == other.player_uid
+        return self.player_name == other.player_name
 
     
         
