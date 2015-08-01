@@ -37,16 +37,16 @@ def get_sessions():
             sessions_unsorted[key] = Session()
 
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id is mission.id, 
-                                                    Player.is_jip is False)
+                            .join(Mission).filter(Mission.id == mission.id, 
+                                                  Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
-                            .join(Mission).filter(Mission.id is mission.id, 
-                                                    Player.is_jip is False)
+                            .join(Mission).filter(Mission.id == mission.id, 
+                                                  Player.is_jip is False)
                             .first())[0]
             temp_mission = SessionMission(mission, player_count)
 

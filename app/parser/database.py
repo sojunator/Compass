@@ -38,6 +38,11 @@ class Player(db.Model):
 
     mission = relationship(Mission)
 
+    # Equality comparison is overloaded, as we
+    # need to compare Player to AstPlayer later on.
+    def __eq__(self, other):
+        return self.player_uid == other.player_uid
+
 
 class AIMovement(db.Model):
     __tablename__ = 'ai_movement'
@@ -84,6 +89,7 @@ class PlayerDisconnect(db.Model):
 
     mission = relationship(Mission)
 
+
 class AstPlayer(db.Model):
     __tablename__ = 'astplayer'
     __bind_key__ = 'ast'
@@ -100,6 +106,11 @@ class AstPlayer(db.Model):
     last_played = Column(DateTime, nullable=False)
     danger_zone = Column(Boolean, nullable=False)
     deaths = Column(Integer, nullable=False)
+
+    # Equality comparison is overloaded, as we
+    # need to compare Player to AstPlayer later on.
+    def __eq__(self, other):
+        return self.player_uid == other.player_uid
 
     
         
