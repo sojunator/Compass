@@ -14,3 +14,13 @@ mod_login = Blueprint('login', __name__, url_prefix='/',
 @mod_login.route('/')
 def landing_page():
         return render_template('login.html')
+
+@mod_login.route('auth', methods=['POST', 'GET'])
+def auth():
+    username = request.form.get("username")
+    password = request.form.get("password")
+       	return redirect(url_for('.landing_page'))
+    return redirect(url_for('.landing_page'))
+
+def check_user(username, password):
+	return username == "Admin" and password == "test"    	

@@ -1,6 +1,7 @@
 # Import flask and template operators
 from flask import Flask, render_template, Blueprint
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager
 
 import logging
 import chartkick
@@ -9,6 +10,9 @@ import chartkick
 # Define the WSGI application object
 app = Flask(__name__)
 
+# Load and iniate the login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 # Configurations
 app.config.from_object('config')
