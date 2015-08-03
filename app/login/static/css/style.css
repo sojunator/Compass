@@ -1,75 +1,77 @@
-.form-signin
-{
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+box-sizing: border-box;
 }
-.form-signin .form-signin-heading, .form-signin .checkbox
-{
-    margin-bottom: 10px;
+ 
+*:focus {
+	outline: none;
 }
-.form-signin .checkbox
-{
-    font-weight: normal;
+body {
+font-family: Arial;
+background-color: #3498DB;
+padding: 50px;
 }
-.form-signin .form-control
-{
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.login {
+margin: 20px auto;
+width: 300px;
 }
-.form-signin .form-control:focus
-{
-    z-index: 2;
+.login-screen {
+background-color: #FFF;
+padding: 20px;
+border-radius: 5px
 }
-.form-signin input[type="text"]
-{
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+ 
+.app-title {
+text-align: center;
+color: #777;
 }
-.form-signin input[type="password"]
-{
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+ 
+.login-form {
+text-align: center;
 }
-.account-wall
-{
-    margin-top: 20px;
-    padding: 40px 0px 20px 0px;
-    background-color: #f7f7f7;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+.control-group {
+margin-bottom: 10px;
 }
-.login-title
-{
-    color: #555;
-    font-size: 18px;
-    font-weight: 400;
-    display: block;
+ 
+input {
+text-align: center;
+background-color: #ECF0F1;
+border: 2px solid transparent;
+border-radius: 3px;
+font-size: 16px;
+font-weight: 200;
+padding: 10px 0;
+width: 250px;
+transition: border .5s;
 }
-.profile-img
-{
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
+ 
+input:focus {
+border: 2px solid #3498DB;
+box-shadow: none;
 }
-.need-help
-{
-    margin-top: 10px;
+ 
+.btn {
+  border: 2px solid transparent;
+  background: #3498DB;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 25px;
+  padding: 10px 0;
+  text-decoration: none;
+  text-shadow: none;
+  border-radius: 3px;
+  box-shadow: none;
+  transition: 0.25s;
+  display: block;
+  width: 250px;
+  margin: 0 auto;
 }
-.new-account
-{
-    display: block;
-    margin-top: 10px;
+ 
+.btn:hover {
+  background-color: #2980B9;
+}
+ 
+.login-link {
+  font-size: 12px;
+  color: #444;
+  display: block;
+	margin-top: 12px;
 }
