@@ -4,9 +4,9 @@ import time
 from datetime import date
 import datetime
 
-from app.parser.database import (Mission, Player, AIMovement, PlayerMovement,
+from app.sessions.database import (Mission, Player, AIMovement, PlayerMovement,
                                  PlayerDisconnect, func, AstPlayer)
-from app.parser.models import Session, SessionMission
+from app.sessions.models import Session, SessionMission
 
 LEADERSHIP_ROLES = ["CO", "SL", "FTL", "SN",
                     "MMGG", "MATG", "HATG",

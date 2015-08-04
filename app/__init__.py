@@ -1,7 +1,6 @@
 # Import flask and template operators
 from flask import Flask, render_template, Blueprint
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
 
 import logging
 import chartkick
@@ -9,10 +8,6 @@ import chartkick
 
 # Define the WSGI application object
 app = Flask(__name__)
-
-# Load and iniate the login manager
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 
 # Configurations
@@ -26,17 +21,15 @@ def not_found(error):
 db = SQLAlchemy(app)
     
 # Import Blueprint modules.
-from app.parser.routes import mod_parser
+from app.sessions.routes import mod_sessions
 from app.players.routes import mod_players
-from app.login.routes import mod_login
 
 
 ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_path='/static')
 
 # Register Blueprint(s)
-app.register_blueprint(mod_parser)
+app.register_blueprint(mod_sessions)
 app.register_blueprint(mod_players)
-app.register_blueprint(mod_login)
 app.register_blueprint(ck, url_prefix='/ck')
 app.jinja_env.add_extension("chartkick.ext.charts")
 

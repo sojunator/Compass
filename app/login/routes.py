@@ -2,36 +2,29 @@ from flask import Blueprint, render_template, redirect, url_for, request, Respon
 from sqlalchemy import desc
 from sqlalchemy.sql import collate
 from functools import wraps
+from flask.ext.security import login_required
+
 
 from app import db
 
-from app.players.routes import display_players
 
-
-mod_login = Blueprint('login', __name__, url_prefix='/',
-                       template_folder='templates')
-
-
-@mod_login.route('/')
-def landing_page():
-        return render_template('login.html')
-
-@mod_login.route('auth', methods=['POST', 'GET'])
-def auth():
-    username = request.form.get("username")
-    password = request.form.get("password")
-    if validate_user(username, password):
-        session['logged_in'] = True
-        return display_one_player()
-    else:
-        flash('Wrong password shithead')
-    return redirect(url_for('.landing_page'))
-
-def validate_user(username, password):
-	return username == "Admin" and password == "test"    	
     
     
-@mod_login.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return redirect(url_for('.landing_page'))
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        print("ASDASD")
+        if not auth or not validate_user(auth.username, auth.password):
+            print("You suck bane")
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})    
