@@ -6,17 +6,14 @@ from flask.ext.security import login_required
 
 
 from app import db
-
-
+from .donotpushme import validate_user
     
     
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        print("ASDASD")
         if not auth or not validate_user(auth.username, auth.password):
-            print("You suck bane")
             return authenticate()
         return f(*args, **kwargs)
     return decorated

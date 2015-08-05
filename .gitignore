@@ -60,3 +60,6 @@ target/
 # Log files
 ark_a2.sqlite
 ast
+
+# Password file
+app/login/donopushme.py

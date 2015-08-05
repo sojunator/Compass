@@ -56,9 +56,24 @@ def get_sessions():
     # Sort the dictionary and only retrieve.
     sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0])
 
-    return render_template('parser.html', sessions=sorted_sessions)
+    return render_template('overview.html', sessions=sorted_sessions)
 
 
 @mod_sessions.route('/<year>/<week>')
-def display_session():  
-    return 5
+def display_session(year, week):  
+    missions = db.session.query(Mission).all()
+    week = int(week)
+    year = int(year)
+
+    session_missions = []
+    for mission in missions:
+        if ((mission.created.isocalendar()[1] == week)
+            and (mission.created.year == year) 
+            and (mission.created.weekday() in [5, 6]) # Missin in a sat or sunday
+            and ((mission.created.hour >= 18) or (mission.created.hour <= 5))): # if it was played between 18 and 5
+                session_missions.append(mission)
+
+    # Sort mission after played order
+    session_missions.sort(key=lambda r: r.created)
+
+    return render_template('session.html', session=session_missions)
