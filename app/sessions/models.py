@@ -17,9 +17,12 @@ class Session:
 
 
 class SessionMission:
-    def __init__(self, mission, playercount):
+    def __init__(self, mission, playercount, players):
         self.mission = mission
         self.playercount = playercount
+        self.players = players
+        self.mission_name = mission.mission_name
+
 
     def __repr__(self):
         return "{0} {1}".format(self.mission, self.playercount)

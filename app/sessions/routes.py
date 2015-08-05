@@ -43,18 +43,18 @@ def get_sessions():
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
-            temp_mission = SessionMission(mission, player_count)
+            temp_mission = SessionMission(mission, player_count, None)
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
-            temp_mission = SessionMission(mission, player_count)
+            temp_mission = SessionMission(mission, player_count, None)
             sessions_unsorted[key].add_mission(temp_mission)
      
     # Sort the dictionary and only retrieve.
-    sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0])
+    sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0], reverse=True)
 
     return render_template('overview.html', sessions=sorted_sessions)
 
@@ -71,9 +71,21 @@ def display_session(year, week):
             and (mission.created.year == year) 
             and (mission.created.weekday() in [5, 6]) # Missin in a sat or sunday
             and ((mission.created.hour >= 18) or (mission.created.hour <= 5))): # if it was played between 18 and 5
-                session_missions.append(mission)
+                players = db.session.query(Player).filter(Player.mission_id == mission.id, Player.player_name is not "HC", Player.is_jip == False).all()
+                player_count = (db.session.query(func.count(Player.id))
+                            .join(Mission).filter(Mission.id == mission.id, 
+                                                  Player.is_jip == False)
+                            .first())[0]
+                temp_mission = SessionMission(mission, player_count, players)
+                session_missions.append(temp_mission)
 
     # Sort mission after played order
-    session_missions.sort(key=lambda r: r.created)
+    session_missions.sort(key=lambda r: r.mission.created)
 
-    return render_template('session.html', session=session_missions)
+    data = {}
+
+    for index, mission in enumerate(session_missions):
+        data[index] = mission.playercount
+        
+
+    return render_template('session.html', session=session_missions, data=data)

@@ -45,6 +45,9 @@ class Player(db.Model):
     def __eq__(self, other):
         return self.player_name == other.player_name
 
+    def __repr__(self):
+        return "{0}".format(self.player_name)    
+
 
 class AIMovement(db.Model):
     __tablename__ = 'ai_movement'
