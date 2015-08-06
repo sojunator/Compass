@@ -6,7 +6,7 @@ from functools import wraps
 from app import db
 
 from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, AstPlayer
-from .models import Session, SessionMission
+from .models import Session, SessionMission, GroupsInMission
 from app.login.routes import requires_auth
 
 
@@ -43,14 +43,14 @@ def get_sessions():
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
-            temp_mission = SessionMission(mission, player_count, None)
+            temp_mission = SessionMission(mission, player_count, None, None)
             sessions_unsorted[key].add_mission(temp_mission)
         else:  # Use existing key/value pair
             player_count = (db.session.query(func.count(Player.id))
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
-            temp_mission = SessionMission(mission, player_count, None)
+            temp_mission = SessionMission(mission, player_count, None, None)
             sessions_unsorted[key].add_mission(temp_mission)
      
     # Sort the dictionary and only retrieve.
@@ -66,17 +66,35 @@ def display_session(year, week):
     year = int(year)
 
     session_missions = []
+
     for mission in missions:
-        if ((mission.created.isocalendar()[1] == week)
+        if ((mission.created.isocalendar()[1] == week) # Find mission on the date we are looking on
             and (mission.created.year == year) 
             and (mission.created.weekday() in [5, 6]) # Missin in a sat or sunday
             and ((mission.created.hour >= 18) or (mission.created.hour <= 5))): # if it was played between 18 and 5
-                players = db.session.query(Player).filter(Player.mission_id == mission.id, Player.player_name is not "HC", Player.is_jip == False).all()
-                player_count = (db.session.query(func.count(Player.id))
+                players = db.session.query(Player).filter(
+                                        Player.mission_id == mission.id, 
+                                        Player.player_name is not "HC", 
+                                        Player.is_jip == False).all()
+
+                player_count = (db.session.query(func.count(Player.id)) 
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
-                temp_mission = SessionMission(mission, player_count, players)
+
+                groups = {}
+
+                for player in players: # Find all groups in missio and place the players in them
+                    key = player.group_name
+
+                    if key not in groups: # If the key doesnt exist, create new
+                        groups[key] = GroupsInMission()
+                        groups[key].add_member(player)
+                    else:                 # Use existing key
+                        groups[key].add_member(player)
+
+
+                temp_mission = SessionMission(mission, player_count, players, groups)
                 session_missions.append(temp_mission)
 
     # Sort mission after played order
@@ -86,6 +104,7 @@ def display_session(year, week):
 
     for index, mission in enumerate(session_missions):
         data[index] = mission.playercount
-        
+    
+
 
     return render_template('session.html', session=session_missions, data=data)
