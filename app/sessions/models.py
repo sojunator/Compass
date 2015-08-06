@@ -17,33 +17,50 @@ class Session:
 
 
 class SessionMission:
+    _rules = { 
+        "CO": 1,
+        "XO": 2,
+        "ASL": 3,
+        "A1": 4,
+        "A2": 5,
+        "A3": 6,
+        "BSL": 7,
+        "B1": 8,
+        "B2": 9,
+        "B3": 10,
+        "MMG1": 11,
+        "MMG2": 12,
+        "HMG1": 13,
+        "IFV1": 14,
+        "IFV2": 15,
+        "IFV3": 16,
+        "IFV4": 17,
+        "TNK1": 18
+    }
+
     def __init__(self, mission, playercount, players, groups):
         self.mission = mission
         self.playercount = playercount
         self.players = players
         self.mission_name = mission.mission_name
-        self.groups = groups
-
+        self.groups = self.sort_groups(groups)
 
     def __repr__(self):
         return "{0} {1}".format(self.mission, self.playercount)
 
+    def sort_groups(self, groups):
+        return sorted(groups.items(), key=lambda x: ( x[0].split(" ")[0], self._rules.get(x[0].split(" ")[1], 99)))
+
+    
+
 class GroupsInMission:
     def __init__(self):
-        self.group = []
+        self.players = []
         self.member_count = 0
 
     def add_member(self, player):
-        self.group.append(player)
+        self.players.append(player)
         self.member_count = self.member_count + 1
 
     def __repr__(self):
-
-        string = ""
-
-        for index, player in enumerate(self.group):
-            string = string + " " + player.player_name
-            print(player.player_name)
-
-
-        return string
+        return " ".join([player.player_name for player in self.players])
