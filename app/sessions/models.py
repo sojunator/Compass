@@ -86,7 +86,6 @@ class SessionMission:
 
         if self.mission_name != "##Lobby##":
             split_mission_name = self.mission.mission_name.split("_")[1]
-            print(split_mission_name[:3])
             if split_mission_name[:3] in ["gtv", "tvt"]:
                 self.mission_type = "panel-danger"
 
