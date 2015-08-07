@@ -82,6 +82,7 @@ class SessionMission:
         return "{0} {1}".format(self.mission, self.playercount)
 
     def sort_groups(self, groups):
+        groups.pop("<NULL-group>", None)
         return sorted(groups.items(), key=lambda x: ( x[0].split(" ")[0], self._rules.get(x[0].split(" ")[1], 99)))
 
     

@@ -61,5 +61,7 @@ target/
 ark_a2.sqlite
 ast
 
+.floo
+
 # Password file
 app/login/donopushme.py
