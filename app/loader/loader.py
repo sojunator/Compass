@@ -53,7 +53,8 @@ def insert_players():
                                    deaths=0,
                                    played_leader=0,
                                    last_mission=player.mission_id,
-                                   staff_notes="")
+                                   staff_notes=""
+                                   )
             db.session.add(ast_player)
         else:
             ast_player = (db.session.query(AstPlayer)

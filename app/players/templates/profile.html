@@ -38,8 +38,12 @@
                 <td class="nowrap">{{player.played_leader}}/{{player.missions_played}}</td>
             </tr>
             <tr>
-                <td class="nowrap">Last mission id:</td>
-                <td class="nowrap">{{player.last_mission}}</td>
+                <td class="nowrap">Last session:</td>
+                <td class="nowrap">
+                    <a href="{{url_for('sessions.display_session', year=player.last_played.year, week=player.last_played.isocalendar()[1]) }}">
+                        {{ player.last_played.year }} / {{ player.last_played.isocalendar()[1] }}
+                    </a>
+                </td>
             </tr>
             <tr>
                 <td class="nowrap">{% pie_chart data with id='chart-1' height='400px' %}</td>
