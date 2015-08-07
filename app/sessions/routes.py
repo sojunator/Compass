@@ -32,7 +32,8 @@ def get_sessions():
             session_missions.append(mission)
     
     sessions_unsorted = {}
-    for mission in session_missions:
+    graph_data = {}
+    for index, mission in enumerate(session_missions):
         year, week, __ = mission.created.isocalendar()
 
         key = (year, week)
@@ -50,13 +51,21 @@ def get_sessions():
                             .join(Mission).filter(Mission.id == mission.id, 
                                                   Player.is_jip == False)
                             .first())[0]
+
             temp_mission = SessionMission(mission, player_count, None, None)
             sessions_unsorted[key].add_mission(temp_mission)
      
+
     # Sort the dictionary and only retrieve.
     sorted_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0], reverse=True)
 
-    return render_template('overview.html', sessions=sorted_sessions)
+    # There has to be a better, looping over sorted_session backwards should doit
+    graph_sessions = sorted(sessions_unsorted.items(), key=lambda t: t[0], reverse=False)
+
+    for index, session in enumerate(graph_sessions):
+        graph_data[index+1] = session[1].show_peak()
+
+    return render_template('overview.html', sessions=sorted_sessions, data=graph_data)
 
 
 @mod_sessions.route('/<year>/<week>')

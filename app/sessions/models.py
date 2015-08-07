@@ -25,8 +25,7 @@ class Session:
         self.missions.sort(key=lambda r: r.mission.created)
 
     def __repr__(self):
-        self.update_player_peak()
-        return "A peak of {0} - {1}".format(self.player_peak, self.missions)
+        return "{0}".format(self.missions)
 
 
 class SessionMission:

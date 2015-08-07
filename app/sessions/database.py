@@ -19,7 +19,7 @@ class Mission(db.Model):
     end_ingame = Column(REAL)
 
     def __repr__(self):
-        return "{0} - {1}".format(self.mission_name, self.world_name)
+        return "{0}".format(self.mission_name)
 
 
 class Player(db.Model):
