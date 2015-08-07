@@ -105,7 +105,7 @@ def display_session(year, week):
     data = {}
 
     for index, mission in enumerate(session_missions.missions):
-        data[index] = mission.playercount
+        data[index+1] = mission.playercount
     
 
 

@@ -21,8 +21,8 @@ class Session:
             if self.player_peak < SessionMission.playercount:
                 self.player_peak = SessionMission.playercount
 
-    def sort_missions(self):  
-        self.missions.sort(key=lambda r: r.mission.created)          
+    def sort_missions(self):
+        self.missions.sort(key=lambda r: r.mission.created)
 
     def __repr__(self):
         self.update_player_peak()
@@ -30,7 +30,7 @@ class Session:
 
 
 class SessionMission:
-    _rules = { 
+    _rules = {
         "CO": 1,
         "XO": 2,
         "ASL": 3,
@@ -75,17 +75,32 @@ class SessionMission:
         self.playercount = playercount
         self.players = players
         self.mission_name = mission.mission_name
+        self.mission_type = "panel-success"
+        if mission.safety_timer_ingame is not None:
+            self.safety_off = divmod(mission.safety_timer_ingame, 60)
+        else:
+            self.safety_off = None
+
         if groups is not None:
             self.groups = self.sort_groups(groups)
 
+        if self.mission_name != "##Lobby##":
+            split_mission_name = self.mission.mission_name.split("_")[1]
+            print(split_mission_name[:3])
+            if split_mission_name[:3] in ["gtv", "tvt"]:
+                self.mission_type = "panel-danger"
+
+
     def __repr__(self):
-        return "{0} {1}".format(self.mission, self.playercount)
+        return "{0}".format(self.mission)
 
     def sort_groups(self, groups):
-        groups.pop("<NULL-group>", None)
-        return sorted(groups.items(), key=lambda x: ( x[0].split(" ")[0], self._rules.get(x[0].split(" ")[1], 99)))
+        groups = {(key if key != '<NULL-group>' else 'N 1'): value for
+                  key, value in groups.items()}
+        return sorted(groups.items(), key=lambda x: (x[0].split(" ")[0],
+                                                     self._rules.get(x[0].split(" ")[1], 99)
+                                                     ))
 
-    
 
 class GroupsInMission:
     _rules = {
@@ -115,6 +130,7 @@ class GroupsInMission:
         "MATAG": 24,
         "MATAC": 25
     }
+
     def __init__(self):
         self.players = []
         self.member_count = 0
@@ -124,7 +140,9 @@ class GroupsInMission:
         self.member_count = self.member_count + 1
 
     def sort_members(self):
-        self.players = sorted(self.players, key=lambda x: (self._rules.get(x.hull_gear_class, 99)))
+        self.players = sorted(self.players,
+                              key=lambda x: (self._rules.get(x.hull_gear_class,
+                                                             99)))
 
     def __repr__(self):
-        return " ".join([player.player_name for player in self.players])
+        return ", ".join([player.player_name for player in self.players])
