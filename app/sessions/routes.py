@@ -94,7 +94,7 @@ def display_session(year, week):
                         groups[key].add_member(player)
 
                 for key in groups:
-                    groups[key].sort_members
+                    groups[key].sort_members()
 
 
                 temp_mission = SessionMission(mission, player_count, players, groups)

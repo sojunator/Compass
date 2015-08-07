@@ -98,7 +98,13 @@ class GroupsInMission:
         "VG": 16,
         "VD": 17,
         "P": 18,
-        "PCM": 19
+        "PCM": 19,
+        "ENG": 20,
+        "ENGA": 21,
+        "RTO": 22,
+        "MATG": 23,
+        "MATAG": 24,
+        "MATAC": 25
     }
     def __init__(self):
         self.players = []
@@ -109,7 +115,7 @@ class GroupsInMission:
         self.member_count = self.member_count + 1
 
     def sort_members(self):
-        self.players = sorted(self.players, key=lambda x: (self._rules[x[0]]))
+        self.players = sorted(self.players, key=lambda x: (self._rules.get(x.hull_gear_class, 99)))
 
     def __repr__(self):
         return " ".join([player.player_name for player in self.players])
