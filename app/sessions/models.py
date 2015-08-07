@@ -1,24 +1,32 @@
 class Session:
     def __init__(self):
         self.missions = []
-        self.playerpeak = 0
+        self.player_peak = 0
 
     def session_lenght(self):
-        start = self.missions[0].created
-        end = self.missions[-1].end
-        return end - start
+        start = self.missions[0].mission.created
+        end = self.missions[-1].mission.created
+        return (end - start)
+
+    def show_peak(self):
+        return self.player_peak
 
     def add_mission(self, mission):
         self.missions.append(mission)
+        self.update_player_peak()
+        self.sort_missions()
 
     def update_player_peak(self):
         for SessionMission in self.missions:
-            if self.playerpeak < SessionMission.playercount:
-                self.playerpeak = SessionMission.playercount
+            if self.player_peak < SessionMission.playercount:
+                self.player_peak = SessionMission.playercount
+
+    def sort_missions(self):  
+        self.missions.sort(key=lambda r: r.mission.created)          
 
     def __repr__(self):
         self.update_player_peak()
-        return "A peak of {0} - {1}".format(self.playerpeak, self.missions)
+        return "A peak of {0} - {1}".format(self.player_peak, self.missions)
 
 
 class SessionMission:

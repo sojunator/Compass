@@ -65,7 +65,7 @@ def display_session(year, week):
     week = int(week)
     year = int(year)
 
-    session_missions = []
+    session_missions = Session()
 
     for mission in missions:
         if ((mission.created.isocalendar()[1] == week) # Find mission on the date we are looking on
@@ -98,14 +98,13 @@ def display_session(year, week):
 
 
                 temp_mission = SessionMission(mission, player_count, players, groups)
-                session_missions.append(temp_mission)
+                session_missions.add_mission(temp_mission)
 
-    # Sort mission after played order
-    session_missions.sort(key=lambda r: r.mission.created)
+
 
     data = {}
 
-    for index, mission in enumerate(session_missions):
+    for index, mission in enumerate(session_missions.missions):
         data[index] = mission.playercount
     
 

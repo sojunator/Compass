@@ -10,7 +10,8 @@ DEBUG = True
 #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'ark_a2.sqlite')
 SQLALCHEMY_BINDS = {
     'ark_a2':        'sqlite:///' + os.path.join(BASE_DIR, 'ark_a2.sqlite'),
-    'ast':           'sqlite:///' + os.path.join(BASE_DIR, 'ast')
+    'ast':           'sqlite:///' + os.path.join(BASE_DIR, 'ast'),
+    #'ark_forums':    'mysql://stat:burn@ark-group.org'
 }
 DATABASE_CONNECT_OPTIONS = {}
 

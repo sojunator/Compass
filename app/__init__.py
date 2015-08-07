@@ -36,6 +36,7 @@ app.jinja_env.add_extension("chartkick.ext.charts")
 
 db.create_all(bind=['ark_a2'])
 db.create_all(bind=['ast'])
+#db.create_all(bind=['ark_forums'])
 
 
 # pass into database, its first run
