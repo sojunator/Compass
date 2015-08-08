@@ -9,6 +9,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+    <script src="{{ url_for('static', filename='sortTable.js') }}"></script>
 </head>
 <body>
 
@@ -27,7 +28,7 @@
         </div><!-- /.container-fluid -->
     </nav>    
         {% pie_chart data with id='chart-1' height='400px' %}
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover sortable">
             <thead>
             <tr>
                 <th>Username</th>
