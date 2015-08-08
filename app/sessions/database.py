@@ -5,6 +5,31 @@ from sqlalchemy.orm import relationship
 
 from app import app
 
+class ForumUser(db.Model):
+
+    _ranktable = {
+        1: "Staff",
+        3: "Regular",
+        5: "Recruit",
+        6: "Veteran",
+        7: "Captain",
+        8: "Guest" 
+    }
+
+    __tablename__ = "phpbb_users"
+    __bind_key__ = 'ark_forums'
+
+    user_id = Column(Integer, primary_key=True)
+    username_clean = Column(String(255), nullable=False)
+    user_rank = Column(Integer, nullable=False)
+
+    def show_rank(self):
+        if self.user_rank in self._ranktable:
+            return "{0}".format(self._ranktable[self.user_rank])
+        else:
+            return None
+
+
 class Mission(db.Model):
     __tablename__ = "mission"
     __bind_key__ = 'ark_a2'

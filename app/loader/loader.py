@@ -5,7 +5,7 @@ from datetime import date
 import datetime
 
 from app.sessions.database import (Mission, Player, AIMovement, PlayerMovement,
-                                 PlayerDisconnect, func, AstPlayer)
+                                 PlayerDisconnect, func, AstPlayer, ForumUser)
 from app.sessions.models import Session, SessionMission
 
 LEADERSHIP_ROLES = ["CO", "SL", "FTL", "SN",
@@ -33,6 +33,8 @@ def insert_players():
 
     # Get a list of the AstPlayers that already exist in our local DB.
     ast_players = db.session.query(AstPlayer).all()
+    user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all()}
+
 
     # Reset our DB.
     for player in ast_players:
@@ -41,6 +43,7 @@ def insert_players():
         player.deaths = 0
 
     for player in session_players:
+        rank = user_ranks.get(player.player_name.lower().replace(" ", ""), "Regular")
         if player not in ast_players:  # compares player_uid
             ast_players.append(player)
 
@@ -49,7 +52,7 @@ def insert_players():
                                    missions_played=1,
                                    last_played=player.created,
                                    danger_zone=False,
-                                   player_rank="Regular",
+                                   player_rank=rank,
                                    deaths=0,
                                    played_leader=0,
                                    last_mission=player.mission_id,
@@ -73,7 +76,7 @@ def insert_players():
                 ast_player.last_played = player.created
                 ast_player.last_mission = player.mission_id
 
-                ast_player.danger_zone = in_danger_zone(player)
+                ast_player.danger_zone = in_danger_zone(player, rank)
 
     db.session.commit()
 
@@ -90,7 +93,8 @@ def in_session(player):
                                         "Pr3sario", "Shalun (2)", "Lucky"]))
 
 
-def in_danger_zone(player):
+def in_danger_zone(player, rank):
     """Checks whether the Player was 'created' more than two weeks ago."""
     return (player.created.isocalendar()[1] <
-            (date.today().isocalendar()[1] - 2))
+            (date.today().isocalendar()[1] - 2) 
+            and rank not in ["Guest", "Staff"])
