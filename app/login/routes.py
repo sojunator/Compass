@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, request, Respon
 from sqlalchemy import desc
 from sqlalchemy.sql import collate
 from functools import wraps
-from flask.ext.security import login_required
 
 
 from app import db
