@@ -64,4 +64,4 @@ ast
 .floo
 
 # Password file
-app/login/donopushme.py
+app/login/donotpushme.py
