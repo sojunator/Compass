@@ -22,6 +22,7 @@ class ForumUser(db.Model):
     user_id = Column(Integer, primary_key=True)
     username_clean = Column(String(255), nullable=False)
     user_rank = Column(Integer, nullable=False)
+    user_inactive_reason = Column(Integer, nullable=False)
 
     def show_rank(self):
         if self.user_rank in self._ranktable:

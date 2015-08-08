@@ -33,7 +33,7 @@ def insert_players():
 
     # Get a list of the AstPlayers that already exist in our local DB.
     ast_players = db.session.query(AstPlayer).all()
-    user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all()}
+    user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all() if user.user_inactive_reason == 0}
 
 
     # Reset our DB.
@@ -90,7 +90,7 @@ def in_session(player):
                                         "Namuthewhale", "SkinnyTar", "Sakai",
                                         "ratcatcher", "Tegyr", "Ricky",
                                         "ZeRandomTigre", "Wrathz", "Emaharg",
-                                        "Pr3sario", "Shalun (2)", "Lucky"]))
+                                        "Pr3sario", "Shalun (2)", "Lucky", "Matt"]))
 
 
 def in_danger_zone(player, rank):
