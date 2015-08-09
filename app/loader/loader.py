@@ -42,6 +42,16 @@ def insert_players():
         player.missions_played = 0
         player.deaths = 0
 
+    # Remove banned players from session gathering session data
+    for player in session_players:
+      if player.player_name.lower().replace(" ", "") not in user_ranks and player.player_name not in ["Lupin_Yonder", "Mr-Link", "Ivan"]: # These people are the worst of worst
+        session_players.remove(player)   
+
+    # Remove banned players from ast_db
+    for player in ast_players:
+      if player.player_name.lower().replace(" ", "") not in user_ranks and player.player_name not in ["Lupin_Yonder", "Mr-Link", "Ivan"]: 
+        ast_players.remove(player)   
+
     for player in session_players:
         rank = user_ranks.get(player.player_name.lower().replace(" ", ""), "Regular")
         if player not in ast_players:  # compares player_uid
