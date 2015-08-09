@@ -30,4 +30,3 @@ CSRF_SESSION_KEY = "horsey"
 
 # Secret key for signing cookies
 SECRET_KEY = "horsey"
-

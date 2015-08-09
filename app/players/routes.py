@@ -20,7 +20,7 @@ mod_players = Blueprint('players', __name__, url_prefix='/players',
 @mod_players.route('/')
 @requires_auth
 def display_players():
-    players_in_database = db.session.query(AstPlayer).order_by(AstPlayer.danger_zone.desc(), AstPlayer.last_played).all()
+    players_in_database = db.session.query(AstPlayer).order_by(AstPlayer.danger_zone.desc(), AstPlayer.player_rank).all()
 
     ranks = []
 
@@ -37,6 +37,7 @@ def display_players():
     return render_template('players.html', players=players_in_database, data=data)
 
 @mod_players.route('/submit/<username>', methods=['POST'])
+@requires_auth
 def submit_notes(username):
     if username is None:
         return redirect(url_for('.display_players'))
