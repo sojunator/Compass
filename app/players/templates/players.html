@@ -40,11 +40,11 @@
         </thead>
         {% for player in players %}  
             <tr class="{{player.return_danger()}} {{player.player_rank}}" >
-                <td width="14%"><a href="{{url_for('players.submit_notes', username=player.player_name)}}"> {{player.player_name}}</a></td>
+                <td width="14%"><a href="{{url_for('players.display_one_player', username=player.player_name)}}"> {{player.player_name}}</a></td>
                 <td>{{player.player_rank}}</td>
                 <td>{{player.missions_played}}</td>
-                <td>{{player.last_played}}</td>
-                <td><form action="/players/submit/{{player.player_name}}" name="notesform" method="post">
+                <td>{{player.last_played.date()}}</td>
+                <td><form action="{{url_for('players.submit_notes', username=player.player_name)}}" name="notesform" method="post">
                     <textarea rows="1" cols="30" name="notes" class="form-control">{{player.staff_notes}}</textarea>
                     <input type="submit" value="Submit" class="btn btn-primary btn-sm">
                 </td></form>

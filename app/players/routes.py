@@ -20,7 +20,7 @@ mod_players = Blueprint('players', __name__, url_prefix='/players',
 @mod_players.route('/')
 @requires_auth
 def display_players():
-    players_in_database = db.session.query(AstPlayer).order_by(AstPlayer.danger_zone.desc(), AstPlayer.player_rank).all()
+    players_in_database = db.session.query(AstPlayer).order_by(AstPlayer.danger_zone.desc(), AstPlayer.last_played, AstPlayer.player_rank).all()
 
     ranks = []
 
