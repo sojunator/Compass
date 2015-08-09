@@ -143,5 +143,11 @@ class AstPlayer(db.Model):
     def __eq__(self, other):
         return self.player_name == other.player_name
 
+    def return_danger(self):
+        if self.danger_zone:
+            return "danger_zone"
+        else:
+            return ""
+
     def __repr__(self):
         return "{0} - id {1}".format(self.player_name, self.player_uid)

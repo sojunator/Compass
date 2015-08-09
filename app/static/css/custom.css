@@ -14,11 +14,175 @@ p.C{
     color:#f04ee3;
 }
 
-.co{
-	.panel-success;
+
+.co {
+  border-color: #d6e9c6;
+}
+.co > .panel-heading {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.co > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #d6e9c6;
+}
+.co > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.co > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #d6e9c6;
 }
 
-.tvt{
-    .panel-danger;
+
+.tvt {
+  border-color: #ebccd1;
+}
+.tvt > .panel-heading {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.tvt > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ebccd1;
+}
+.tvt > .panel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.tvt > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ebccd1;
 }
 
+.table > thead > tr > td.Veteran,
+.table > tbody > tr > td.Veteran,
+.table > tfoot > tr > td.Veteran,
+.table > thead > tr > th.Veteran,
+.table > tbody > tr > th.Veteran,
+.table > tfoot > tr > th.sVeteran,
+.table > thead > tr.Veteran > td,
+.table > tbody > tr.Veteran > td,
+.table > tfoot > tr.Veteran > td,
+.table > thead > tr.Veteran > th,
+.table > tbody > tr.Veteran > th,
+.table > tfoot > tr.Veteran > th {
+  background-color: #dff0d8;
+}
+.table-hover > tbody > tr > td.Veteran:hover,
+.table-hover > tbody > tr > th.Veteran:hover,
+.table-hover > tbody > tr.Veteran:hover > td,
+.table-hover > tbody > tr:hover > .Veteran,
+.table-hover > tbody > tr.Veteran:hover > th {
+  background-color: #d0e9c6;
+}
+
+
+.table > thead > tr > td.Captain,
+.table > tbody > tr > td.Captain,
+.table > tfoot > tr > td.Captain,
+.table > thead > tr > th.Captain,
+.table > tbody > tr > th.Captain,
+.table > tfoot > tr > th.Captain,
+.table > thead > tr.Captain > td,
+.table > tbody > tr.Captain > td,
+.table > tfoot > tr.Captain > td,
+.table > thead > tr.Captain > th,
+.table > tbody > tr.Captain > th,
+.table > tfoot > tr.Captain > th {
+  background-color: #d9edf7;
+}
+.table-hover > tbody > tr > td.Captain:hover,
+.table-hover > tbody > tr > th.Captain:hover,
+.table-hover > tbody > tr.Captain:hover > td,
+.table-hover > tbody > tr:hover > .Captain,
+.table-hover > tbody > tr.Captain:hover > th {
+  background-color: #c4e3f3;
+}
+
+.table > thead > tr > td.Regular,
+.table > tbody > tr > td.Regular,
+.table > tfoot > tr > td.Regular,
+.table > thead > tr > th.Regular,
+.table > tbody > tr > th.Regular,
+.table > tfoot > tr > th.Regular,
+.table > thead > tr.Regular > td,
+.table > tbody > tr.Regular > td,
+.table > tfoot > tr.Regular > td,
+.table > thead > tr.Regular > th,
+.table > tbody > tr.Regular > th,
+.table > tfoot > tr.Regular > th {
+  background-color: #fcf8e3;
+}
+.table-hover > tbody > tr > td.Regular:hover,
+.table-hover > tbody > tr > th.Regular:hover,
+.table-hover > tbody > tr.Regular:hover > td,
+.table-hover > tbody > tr:hover > .Regular,
+.table-hover > tbody > tr.Regular:hover > th {
+  background-color: #faf2cc;
+}
+
+.table > thead > tr > td.Recruit,
+.table > tbody > tr > td.Recruit,
+.table > tfoot > tr > td.Recruit,
+.table > thead > tr > th.Recruit,
+.table > tbody > tr > th.Recruit,
+.table > tfoot > tr > th.Recruit,
+.table > thead > tr.Recruit > td,
+.table > tbody > tr.Recruit > td,
+.table > tfoot > tr.Recruit > td,
+.table > thead > tr.Recruit > th,
+.table > tbody > tr.Recruit > th,
+.table > tfoot > tr.Recruit > th {
+  background-color: #f5f5f5;
+}
+.table-hover > tbody > tr > td.Recruit:hover,
+.table-hover > tbody > tr > th.Recruit:hover,
+.table-hover > tbody > tr.Recruit:hover > td,
+.table-hover > tbody > tr:hover > .Recruit,
+.table-hover > tbody > tr.Recruit:hover > th {
+  background-color: #e8e8e8;
+}
+
+.table > thead > tr > td.Guest,
+.table > tbody > tr > td.Guest,
+.table > tfoot > tr > td.Guest,
+.table > thead > tr > th.Guest,
+.table > tbody > tr > th.Guest,
+.table > tfoot > tr > th.Guest,
+.table > thead > tr.Guest > td,
+.table > tbody > tr.Guest > td,
+.table > tfoot > tr.Guest > td,
+.table > thead > tr.Guest > th,
+.table > tbody > tr.Guest > th,
+.table > tfoot > tr.Guest > th {
+  background-color: #fae5cc;
+}
+.table-hover > tbody > tr > td.Guest:hover,
+.table-hover > tbody > tr > th.Guest:hover,
+.table-hover > tbody > tr.Guest:hover > td,
+.table-hover > tbody > tr:hover > .Guest,
+.table-hover > tbody > tr.Guest:hover > th {
+  background-color: #fae2cc;
+}
+
+.table > thead > tr > td.danger_zone,
+.table > tbody > tr > td.danger_zone,
+.table > tfoot > tr > td.danger_zone,
+.table > thead > tr > th.danger_zone,
+.table > tbody > tr > th.danger_zone,
+.table > tfoot > tr > th.danger_zone,
+.table > thead > tr.danger_zone > td,
+.table > tbody > tr.danger_zone > td,
+.table > tfoot > tr.danger_zone > td,
+.table > thead > tr.danger_zone > th,
+.table > tbody > tr.danger_zone > th,
+.table > tfoot > tr.danger_zone > th {
+  background-color: #f2dede;
+}
+.table-hover > tbody > tr > td.danger_zone:hover,
+.table-hover > tbody > tr > th.danger_zone:hover,
+.table-hover > tbody > tr.danger_zone:hover > td,
+.table-hover > tbody > tr:hover > .danger_zone,
+.table-hover > tbody > tr.danger_zone:hover > th {
+  background-color: #ebcccc;
+}

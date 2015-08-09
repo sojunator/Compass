@@ -74,7 +74,7 @@ class SessionMission:
         self.playercount = playercount
         self.players = players
         self.mission_name = mission.mission_name
-        self.mission_type = "panel-success"
+        self.mission_type = "co"
         if mission.safety_timer_ingame is not None:
             self.safety_off = divmod(mission.safety_timer_ingame, 60)
         else:
@@ -86,7 +86,7 @@ class SessionMission:
         if self.mission_name != "##Lobby##":
             split_mission_name = self.mission.mission_name.split("_")[1]
             if split_mission_name[:3] in ["gtv", "tvt"]:
-                    self.mission_type = "panel-danger"
+                    self.mission_type = "tvt"
 
 
     def __repr__(self):

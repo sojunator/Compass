@@ -39,7 +39,7 @@
             </tr>
         </thead>
         {% for player in players %}  
-            <tr {% if player.danger_zone %} class="danger" {% endif %} >
+            <tr class="{{player.return_danger()}} {{player.player_rank}}" >
                 <td width="14%"><a href="/players/{{player.player_name}}"> {{player.player_name}}</a></td>
                 <td>{{player.player_rank}}</td>
                 <td>{{player.missions_played}}</td>
