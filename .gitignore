@@ -60,6 +60,7 @@ target/
 # Log files
 ark_a2.sqlite
 ast
+compass
 
 .floo
 
