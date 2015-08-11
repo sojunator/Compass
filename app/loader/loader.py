@@ -4,8 +4,7 @@ import time
 from datetime import date
 import datetime
 
-from app.sessions.database import (Mission, Player, AIMovement, PlayerMovement,
-                                 PlayerDisconnect, func, AstPlayer, ForumUser)
+from app.database.database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, CmpPlayer, ForumUser
 from app.sessions.models import Session, SessionMission
 
 LEADERSHIP_ROLES = ["CO", "SL", "FTL", "SN",
@@ -31,13 +30,13 @@ def insert_players():
     session_players = [player for player in db.session.query(Player).all()
                        if in_session(player)]
 
-    # Get a list of the AstPlayers that already exist in our local DB.
-    ast_players = db.session.query(AstPlayer).all()
+    # Get a list of the CompassPlayers that already exist in our local DB.
+    compass_players = db.session.query(CmpPlayer).all()
     user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all() if user.user_inactive_reason == 0}
 
 
     # Reset our DB.
-    for player in ast_players:
+    for player in compass_players:
         player.played_leader = 0
         player.missions_played = 0
         player.deaths = 0
@@ -47,17 +46,17 @@ def insert_players():
       if player.player_name.lower().replace(" ", "") not in user_ranks and player.player_name not in ["Lupin_Yonder", "Mr-Link", "Ivan"]: # These people are the worst of worst
         session_players.remove(player)   
 
-    # Remove banned players from ast_db
-    for player in ast_players:
+    # Remove banned players from cmp_db
+    for player in compass_players:
       if player.player_name.lower().replace(" ", "") not in user_ranks and player.player_name not in ["Lupin_Yonder", "Mr-Link", "Ivan"]: 
-        ast_players.remove(player)   
+        compass_players.remove(player)   
 
     for player in session_players:
         rank = user_ranks.get(player.player_name.lower().replace(" ", ""), "Regular")
-        if player not in ast_players:  # compares player_uid
-            ast_players.append(player)
+        if player not in compass_players:  # compares player_uid
+            compass_players.append(player)
 
-            ast_player = AstPlayer(player_name=player.player_name,
+            compass_player = CmpPlayer(player_name=player.player_name,
                                    player_uid=player.player_uid,
                                    missions_played=1,
                                    last_played=player.created,
@@ -68,25 +67,25 @@ def insert_players():
                                    last_mission=player.mission_id,
                                    staff_notes=""
                                    )
-            db.session.add(ast_player)
+            db.session.add(compass_player)
         else:
-            ast_player = (db.session.query(AstPlayer)
-                          .filter(AstPlayer.player_name == player.player_name)
+            compass_player = (db.session.query(CmpPlayer)
+                          .filter(CmpPlayer.player_name == player.player_name)
                           .first())
 
-            ast_player.missions_played += 1
+            compass_player.missions_played += 1
 
             if player.hull_gear_class in LEADERSHIP_ROLES:
-                ast_player.played_leader += 1
+                compass_player.played_leader += 1
 
             if player.death is not None:
-                ast_player.deaths += 1
+                compass_player.deaths += 1
 
-            if ast_player.last_played < player.created:
-                ast_player.last_played = player.created
-                ast_player.last_mission = player.mission_id
+            if compass_player.last_played < player.created:
+                compass_player.last_played = player.created
+                compass_player.last_mission = player.mission_id
 
-                ast_player.danger_zone = in_danger_zone(player, rank)
+                compass_player.danger_zone = in_danger_zone(player, rank)
 
     db.session.commit()
 

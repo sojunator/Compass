@@ -5,7 +5,7 @@ from functools import wraps
 
 from app import db
 
-from .database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, AstPlayer
+from app.database.database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, CmpPlayer
 from .models import Session, SessionMission, GroupsInMission
 from app.login.routes import requires_auth
 
