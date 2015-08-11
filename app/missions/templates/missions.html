@@ -28,10 +28,10 @@
         </div><!-- /.container-fluid -->
     </nav>
     <table class="table table-bordered table-hover">
-     {% for mission in missions %}
+     {% for mission, count in missions %}
         <tr>
             <td width="17%">
-              <h5>{{mission}} </h5>
+              <h5> {{loop.index}} - {{mission}} played {{count}} </h5>
             </td>
         </tr>
       {% endfor %}

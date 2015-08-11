@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, Respon
 from sqlalchemy import desc
 from functools import wraps
 from itertools import chain
+from collections import Counter
+import re
 
 from app import db
 
@@ -21,9 +23,16 @@ def display_missions():
 
 	session_missions = [mission for mission in missions if is_session_mission(mission)]
 
-	unique_missions = list(set(missions))
+	for mission in session_missions:
+		mission.mission_name = re.sub('(_[vV]([0-9]+)?)$', '', mission.mission_name)
 
-	return render_template('missions.html', missions=unique_missions)
+	unique_missions = Counter(session_missions)
+
+	sorted_missions = sorted(unique_missions.items(), key=lambda x: x[0].mission_name.split("_")[2])
+
+	print(sorted_missions)
+
+	return render_template('missions.html', missions=sorted_missions)
 
 def is_session_mission(mission):
-	return ((mission.created.weekday() in [5,6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5)))
+	return ((mission.created.weekday() in [5,6]) and ((mission.created.hour >= 18) or (mission.created.hour <= 5)) and not len(mission.mission_name.split("_")) < 3)
