@@ -1,4 +1,4 @@
-# armaservertools
+# Compass
 
 This is a webproject that generates data and statistics from arma 2 sessions, using ark-stats.
 
