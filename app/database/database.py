@@ -47,6 +47,11 @@ class Mission(db.Model):
     def __repr__(self):
         return "{0}".format(self.mission_name)
 
+    def __eq__(self, other):
+        return self.mission_name == other.mission_name
+
+    def __hash__(self):
+        return (self.mission_name).__hash__()
 
 class Player(db.Model):
     __tablename__ = 'player'
@@ -121,9 +126,9 @@ class PlayerDisconnect(db.Model):
     mission = relationship(Mission)
 
 
-class AstPlayer(db.Model):
-    __tablename__ = 'astplayer'
-    __bind_key__ = 'ast'
+class CmpPlayer(db.Model):
+    __tablename__ = 'CmpPlayer'
+    __bind_key__ = 'compass'
     
     id = Column(Integer, primary_key=True)
     #created = Column(DateTime, nullable=False)
@@ -139,7 +144,7 @@ class AstPlayer(db.Model):
     deaths = Column(Integer, nullable=False)
 
     # Equality comparison is overloaded, as we
-    # need to compare Player to AstPlayer later on.
+    # need to compare Player to CmpPlayer later on.
     def __eq__(self, other):
         return self.player_name == other.player_name
 

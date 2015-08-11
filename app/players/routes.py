@@ -5,7 +5,7 @@ from functools import wraps
 
 from app import db
 
-from app.sessions.database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, AstPlayer
+from app.database.database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, CmpPlayer
 from app.sessions.models import Session, SessionMission
 from app.login.routes import requires_auth
 
@@ -20,7 +20,7 @@ mod_players = Blueprint('players', __name__, url_prefix='/players',
 @mod_players.route('/')
 @requires_auth
 def display_players():
-    players_in_database = db.session.query(AstPlayer).order_by(AstPlayer.danger_zone.desc(), AstPlayer.last_played, AstPlayer.player_rank).all()
+    players_in_database = db.session.query(CmpPlayer).order_by(CmpPlayer.danger_zone.desc(), CmpPlayer.last_played, CmpPlayer.player_rank).all()
 
     ranks = []
 
@@ -44,7 +44,7 @@ def submit_notes(username):
     
     notes = request.form['notes']
 
-    player = db.session.query(AstPlayer).filter(AstPlayer.player_name == username).first()
+    player = db.session.query(CmpPlayer).filter(CmpPlayer.player_name == username).first()
     
     player.staff_notes = notes
     
@@ -57,7 +57,7 @@ def submit_notes(username):
 @requires_auth
 def display_one_player(username):
 
-    displayed_player = db.session.query(AstPlayer).filter(AstPlayer.player_name == username).first()
+    displayed_player = db.session.query(CmpPlayer).filter(CmpPlayer.player_name == username).first()
     if displayed_player is None:
         return redirect(url_for('.display_players'))
         

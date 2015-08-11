@@ -23,6 +23,7 @@ db = SQLAlchemy(app)
 # Import Blueprint modules.
 from app.sessions.routes import mod_sessions
 from app.players.routes import mod_players
+from app.missions.routes import mod_missions
 
 
 ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_path='/static')
@@ -30,12 +31,13 @@ ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_pat
 # Register Blueprint(s)
 app.register_blueprint(mod_sessions)
 app.register_blueprint(mod_players)
+app.register_blueprint(mod_missions)
 app.register_blueprint(ck, url_prefix='/ck')
 app.jinja_env.add_extension("chartkick.ext.charts")
 
 
 db.create_all(bind=['ark_a2'])
-db.create_all(bind=['ast'])
+db.create_all(bind=['compass'])
 db.create_all(bind=['ark_forums'])
 
 
