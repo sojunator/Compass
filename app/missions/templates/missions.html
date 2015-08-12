@@ -27,11 +27,14 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-    <table class="table table-bordered table-hover">
-     {% for mission, count in missions %}
+    <table class="table table-bordered table-hover table-condensed">
+     {% for mission in missions %}
         <tr>
-            <td width="17%">
-              <h5> {{loop.index}} - {{mission}} played {{count}} </h5>
+            <td>
+              <h5> {{loop.index}} - {{mission.mission_name}} - played {{mission.played}} </h5>
+            </td>
+            <td>
+              <h5> played {{mission.played}} </h5>
             </td>
         </tr>
       {% endfor %}

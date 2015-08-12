@@ -48,7 +48,14 @@ class Mission(db.Model):
         return "{0}".format(self.mission_name)
 
     def __eq__(self, other):
-        return self.mission_name == other.mission_name
+        if isinstance(other, Mission):
+            return self.mission_name == other.mission_name
+        else:
+            if isinstance(other, str):
+                return self.mission_name == other
+            else:
+                return False
+
 
     def __hash__(self):
         return (self.mission_name).__hash__()
