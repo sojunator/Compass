@@ -44,10 +44,15 @@
                                 <h6>
                                     Mission type: {{mission.mission_type}}
                                 </h6>
+                                {% if mission.played != 0 %}
                                 <h6>
                                 <a href="{{url_for('sessions.display_session', year=mission.last_datetime.year, week=mission.last_datetime.isocalendar()[1]) }}">
-                                {{ mission.last_datetime.year }} / {{ mission.last_datetime.isocalendar()[1] }}
+                                {{ mission.last_datetime.year }} / {{ mission.last_datetime.isocalendar()[1] }}</a>
                                 <h6>
+                                <h6>
+                                    Nr of runs: {{mission.played}}
+                                </h6>
+                                {% endif %}
                             </div>
                     </div>
                 </div>
