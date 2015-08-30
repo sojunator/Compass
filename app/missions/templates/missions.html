@@ -29,14 +29,25 @@
     </nav>
     <table class="table table-bordered table-hover table-condensed">
      {% for mission in missions %}
-        <tr>
-            <td>
-              <h5> {{loop.index}} - {{mission.mission_name}}</h5>
-            </td>
-            <td>
-              <h5> played {{mission.played}} </h5>
-            </td>
-        </tr>
+            <tr>
+                <div class="panel panel-default {{mission.colour}}">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#{{loop.index}}">{{mission.mission_name}}</a><p>
+                        </h4>
+                    </div>
+                    <div id="{{loop.index}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h6>
+                                    Last played: {{mission.last_played}}
+                                </h6>
+                                <h6>
+                                    Mission type: {{mission.mission_type}}
+                                </h6>
+                            </div>
+                    </div>
+                </div>
+            </tr>
       {% endfor %}
     </table>
     </div>

@@ -29,12 +29,14 @@ def display_missions():
 	missions_data = []
 
 	for key, value in counted_missions.items():
-		missions_data.append(MissionData(key, value))
+		missions_data.append(MissionData(key.mission_name, value))
 
 
 	for mission in folder_missions:
 		if mission not in missions_data:
 			missions_data.append(MissionData(mission, 0))
+
+	missions_data.sort(key=lambda x: x.last_datetime, reverse=True)
 
 	return render_template('missions.html', missions=missions_data)
 
@@ -53,7 +55,6 @@ def missions_in_folder():
 
 def missions_in_db():
 	missions = db.session.query(Mission).all()
-
 	session_missions = [mission for mission in missions if is_session_mission(mission)]
 
 	for mission in session_missions:

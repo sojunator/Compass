@@ -2,16 +2,119 @@ p.O{
     color:#d9534f;
 }
 
+
 p.B{
     color:#337ab7;
 }
+
 
 p.R{
     color:#5cb85c;
 }
 
+
 p.C{
     color:#f04ee3;
+}
+
+
+.stage1 {
+  border-color: #d6e9c6;
+}
+.stage1 > .panel-heading {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.stage1 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #d6e9c6;
+}
+.stage1 > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.stage1 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #d6e9c6;
+}
+
+
+.stage2 {
+  border-color: #fce0e5;
+}
+.stage2 > .panel-heading {
+  color: #a94442;
+  background-color: #fce0e5;
+  border-color: #fce0e5;
+}
+.stage2 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #fce0e5;
+}
+.stage2 > .panel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.stage2 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #fce0e5;
+}
+
+
+.stage3 {
+  border-color: #ebccd1;
+}
+.stage3 > .panel-heading {
+  color: #a94442;
+  background-color: #ebccd1;
+  border-color: #ebccd1;
+}
+.stage3 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ebccd1;
+}
+.stage3 > .panel-heading .badge {
+  color: #ebccd1;
+  background-color: #a94442;
+}
+.stage3 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ebccd1;
+}
+
+
+.stage4 {
+  border-color: #d7a0a9;
+}
+.stage4 > .panel-heading {
+  color: #a94442;
+  background-color: #d7a0a9;
+  border-color: #d7a0a9;
+}
+.stage4 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #d7a0a9;
+}
+.stage4 > .panel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.stage4 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #d7a0a9;
+}
+
+
+.stage5 {
+  border-color: #dee1f2;
+}
+.stage5 > .panel-heading {
+  color: #4244a9;
+  background-color: #dee1f2;
+  border-color: #a0a1d7;
+}
+.stage5 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #a0a1d7;
+}
+.stage5 > .panel-heading .badge {
+  color: #dee1f2;
+  background-color: #a0a1d7;
+}
+.stage5 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #a0a1d7;
 }
 
 
