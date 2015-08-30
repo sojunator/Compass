@@ -44,6 +44,10 @@
                                 <h6>
                                     Mission type: {{mission.mission_type}}
                                 </h6>
+                                <h6>
+                                <a href="{{url_for('sessions.display_session', year=mission.last_datetime.year, week=mission.last_datetime.isocalendar()[1]) }}">
+                                {{ mission.last_datetime.year }} / {{ mission.last_datetime.isocalendar()[1] }}
+                                <h6>
                             </div>
                     </div>
                 </div>
