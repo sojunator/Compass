@@ -18,7 +18,8 @@ class ForumUser(db.Model):
 
     __tablename__ = "phpbb_users"
     __bind_key__ = 'ark_forums'
-
+    
+    user_inactive_time = Column(Integer, nullable=False)
     user_id = Column(Integer, primary_key=True)
     username_clean = Column(String(255), nullable=False)
     user_rank = Column(Integer, nullable=False)

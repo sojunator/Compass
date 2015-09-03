@@ -32,7 +32,7 @@ def insert_players():
 
     # Get a list of the CompassPlayers that already exist in our local DB.
     compass_players = db.session.query(CmpPlayer).all()
-    user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all() if user.user_inactive_reason == 0}
+    user_ranks = {user.username_clean: user.show_rank() for user in db.session.query(ForumUser).all() if user.user_inactive_reason == 0 and user.user_inactive_time == 0}
 
 
     # Reset our DB.
@@ -99,7 +99,7 @@ def in_session(player):
                                         "Namuthewhale", "SkinnyTar", "Sakai",
                                         "ratcatcher", "Tegyr", "Ricky",
                                         "ZeRandomTigre", "Wrathz", "Emaharg",
-                                        "Pr3sario", "Shalun (2)", "Lucky", "Matt"]))
+                                        "Pr3sario", "Shalun (2)", "Lucky", "Matt", "Matt P3rry"]))
 
 
 def in_danger_zone(player, rank):

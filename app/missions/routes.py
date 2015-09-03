@@ -7,21 +7,29 @@ from collections import Counter
 import os
 import re
 
+from werkzeug import secure_filename
 from app import db
+from app import app
 
 from app.database.database import Mission, Player, AIMovement, PlayerMovement, PlayerDisconnect, func, CmpPlayer
 from app.sessions.models import Session, SessionMission
 from app.login.routes import requires_auth
-from .models import MissionData
+from .models import MissionData, PBO
 
 
 mod_missions = Blueprint('missions', __name__, url_prefix='/missions',
                        template_folder='templates')
 
 
-@mod_missions.route('/')
+@mod_missions.route('/', methods=['GET', 'POST'])
 @requires_auth
 def display_missions():
+	if request.method == 'POST':
+		file = request.files['file']
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			temp_mission = PBO(file)
+
 	session_missions = missions_in_db()
 	folder_missions = missions_in_folder()
 
@@ -29,12 +37,17 @@ def display_missions():
 	missions_data = []
 
 	for key, value in counted_missions.items():
-		missions_data.append(MissionData(key.mission_name, value))
+		if key.mission_name in folder_missions:
+			missions_data.append(MissionData(key.mission_name, value))
+		else:
+			print(key.mission_name)
 
 
 	for mission in folder_missions:
 		if mission not in missions_data:
 			missions_data.append(MissionData(mission, 0))
+
+	print (len(folder_missions), " ", len(session_missions), " ", len(missions_data))
 
 	missions_data.sort(key=lambda x: x.last_datetime, reverse=True)
 
@@ -61,3 +74,9 @@ def missions_in_db():
 		mission.mission_name = re.sub('(_[vV]([0-9]+)?)$', '', mission.mission_name)
 
 	return session_missions
+
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = set(['pbo'])
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS

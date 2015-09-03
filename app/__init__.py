@@ -11,7 +11,9 @@ app = Flask(__name__)
 
 
 # Configurations
+UPLOAD_FOLDER = 'C:/dev/python/arma2oa/MPMissions'
 app.config.from_object('config')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.logger.setLevel(logging.DEBUG)
 
 @app.errorhandler(404)

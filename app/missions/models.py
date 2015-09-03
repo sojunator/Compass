@@ -1,6 +1,8 @@
 import time
 from datetime import date
 import datetime
+import os
+import re
 
 from app.database.database import Mission
 from app import db
@@ -31,8 +33,10 @@ class MissionData:
 			if split_mission_name[:3] in ["gtv", "tvt"]:
 				self.mission_type = "tvt"
 
+
 	def __eq__(self, other):
 		return self.mission_name == other
+
 
 	def setColour(self):
 		value = abs(self.last_datetime.isocalendar()[1] - date.today().isocalendar()[1])
@@ -50,3 +54,21 @@ class MissionData:
 
 		return returnValues.get(value, "stage5")
 
+
+class PBO:
+	def __init__(self, pbo):
+		if pbo is None:
+			raise
+
+		self.name = os.path.basename(pbo.filename)
+
+		if valid_name(name):
+			self.mission = MissionData(name, 0)
+			pbo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		else:
+			raise
+
+
+	def valid_name(self, name):
+		return (True if	re.search('ark+_[a-z]+[0-9]+_.+[.].+[.]pbo', filename)
+				else False)
