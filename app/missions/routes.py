@@ -50,7 +50,6 @@ def missions_in_folder():
 		if file.endswith(".pbo"):
 			temp_name = re.sub('(?:[.](.*)|_[vV]([0-9]+(.*))?)', '', file)
 			world_name = file.split('.')[1]
-			print(world_name)
 			folder_missions.append([temp_name, world_name])
 
 	return folder_missions
