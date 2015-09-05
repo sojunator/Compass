@@ -7,11 +7,14 @@ from app import db
 
 
 class MissionData:
-	def __init__(self, mission_name, played):
+	def __init__(self, mission_name, world_name, played):
+		(type, player_count) = self.mission_type_and_player_count(mission_name)
+		self.type = type
+		self.player_count = player_count
 		self.mission_name = mission_name
+		self.world_name = world_name
 		self.played = played
-		self.mission_type = "co"
-		if played is not 0:
+		if played > 0:
 			mission_all = db.session.query(Mission).filter(Mission.mission_name == mission_name).all()
 			temp_mission = mission_all[0]
 			for mission in mission_all:
@@ -19,17 +22,14 @@ class MissionData:
 					temp_mission = mission
 
 			self.last_played = temp_mission.created.date()
+			self.last_played_delta = datetime.date.today() - temp_mission.created.date()
+			self.last_played_delta = self.last_played_delta.days
 			self.last_datetime = temp_mission.created.date()
 		else:
 			self.last_played = "No record"
 			self.last_datetime = datetime.date(datetime.MINYEAR, 1, 1)
 
 		self.colour = self.setColour()
-
-		if self.mission_name != "##Lobby##":
-			split_mission_name = self.mission_name.split("_")[1]
-			if split_mission_name[:3] in ["gtv", "tvt"]:
-				self.mission_type = "tvt"
 
 	def __eq__(self, other):
 		return self.mission_name == other
@@ -49,4 +49,19 @@ class MissionData:
 		}
 
 		return returnValues.get(value, "stage5")
+
+	def mission_type_and_player_count(self, mission_name):
+		mission_name_split = mission_name.split('_')
+		if len(mission_name_split) > 1:
+			type_and_player_count = mission_name_split[1]
+			types = ['cotvt', 'co', 'tvt', 'gtvt']
+			for type in types:
+				t_len = len(type)
+				if type_and_player_count[:t_len] == type:
+					return (type, type_and_player_count[t_len:])
+
+		return ('custom', 0)
+
+	def type_html(self):
+		return { 'cotvt': 'ct', 'co': 'c', 'tvt': 't', 'gtvt': 'g', 'custom': '?' }[self.type]
 

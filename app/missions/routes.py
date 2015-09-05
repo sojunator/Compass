@@ -29,12 +29,12 @@ def display_missions():
 	missions_data = []
 
 	for key, value in counted_missions.items():
-		missions_data.append(MissionData(key.mission_name, value))
+		missions_data.append(MissionData(key.mission_name, 'World', value))
 
 
 	for mission in folder_missions:
 		if mission not in missions_data:
-			missions_data.append(MissionData(mission, 0))
+			missions_data.append(MissionData(mission, 'World', 0))
 
 	missions_data.sort(key=lambda x: x.last_datetime, reverse=True)
 

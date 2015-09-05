@@ -1,65 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Arma 2 sessions</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Arma 2 missions</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/missions.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simple.css') }}">
 </head>
 <body>
-
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-    <h1>Arma 2 missions</h1>    
-    <nav class="navbar navbar-default">
-        <div class="container-fluid"
-        <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-             <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions<span class="sr-only">(current)</span></a></li>
-                    <li><a href="{{url_for('players.display_players')}}">Players</a></li>
-                    <li class="active"><a href="{{url_for('missions.display_missions')}}"}}>Missions<span class="sr-only">(current)</span></a></li> 
-             </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-    <table class="table table-bordered table-hover table-condensed">
-     {% for mission in missions %}
-            <tr>
-                <div class="panel panel-default {{mission.colour}}">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#{{loop.index}}">{{mission.mission_name}}</a><p>
-                        </h4>
-                    </div>
-                    <div id="{{loop.index}}" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <h6>
-                                    Last played: {{mission.last_played}}
-                                </h6>
-                                <h6>
-                                    Mission type: {{mission.mission_type}}
-                                </h6>
-                                {% if mission.played != 0 %}
-                                <h6>
-                                <a href="{{url_for('sessions.display_session', year=mission.last_datetime.year, week=mission.last_datetime.isocalendar()[1]) }}">
-                                {{ mission.last_datetime.year }} / {{ mission.last_datetime.isocalendar()[1] }}</a>
-                                <h6>
-                                <h6>
-                                    Nr of runs: {{mission.played}}
-                                </h6>
-                                {% endif %}
-                            </div>
+<div class="container">
+    <div class="header">
+        <h1>Arma 2 missions</h1>
+        <div class="navigation">
+            <div class="navigation-button"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions</a></div>
+            <div class="navigation-button"><a href="{{url_for('players.display_players')}}">Players</a></div>
+            <div class="navigation-button active"><a href="{{url_for('missions.display_missions')}}"}}>Missions</a></div>
+            </ul>
+        </div>
+    <div>
+    <div>
+    {% for mission in missions %}
+        <div class="mission-container {{mission.colour}}">
+            <div class="mission-header">
+                <div class="mission-type {{ mission.type }}">{{ mission.type_html().upper()}}</div>
+                <div class="mission-player-count">{{ mission.player_count }}</div>
+                <div class="mission-name"><span class="mission-collapse">{{ mission.mission_name }}</span></div>
+                <div class="mission-world">{{mission.world_name}}</div>
+            </div>
+            <div class="mission-content" style="display: none;">
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Last played:</span>
+                        <span class="value">{{mission.last_played}}
+                        {% if mission.played > 0 %}
+                            , {{ mission.last_played_delta }} days ago
+                        {% endif %}
+                        </span>
                     </div>
                 </div>
-            </tr>
-      {% endfor %}
-    </table>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Mission type:</span>
+                        <span class="value mission-type {{mission.type}}">{{ mission.type.upper() }}</span>
+                    </div>
+                </div>
+                {% if mission.played > 0 %}
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Session:</span>
+                        <span class="value"><a href="{{url_for('sessions.display_session', year=mission.last_datetime.year, week=mission.last_datetime.isocalendar()[1]) }}">
+                        {{ mission.last_datetime.year }} / {{ mission.last_datetime.isocalendar()[1] }}</a></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Nr of runs:</span>
+                        <span class="value">{{mission.played}}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
     </div>
-    <div class="col-md-3"></div>
+</div>
 </body>
 </html>
