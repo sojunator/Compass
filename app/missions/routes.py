@@ -29,12 +29,12 @@ def display_missions():
 	missions_data = []
 
 	for key, value in counted_missions.items():
-		missions_data.append(MissionData(key.mission_name, 'World', value))
+		missions_data.append(MissionData(key.mission_name, key.world_name, value))
 
 
 	for mission in folder_missions:
 		if mission not in missions_data:
-			missions_data.append(MissionData(mission, 'World', 0))
+			missions_data.append(MissionData(mission[0], mission[1], 0))
 
 	missions_data.sort(key=lambda x: x.last_datetime, reverse=True)
 
@@ -49,7 +49,9 @@ def missions_in_folder():
 	for file in os.listdir("C:/dev/python/arma2oa/MPMissions"):
 		if file.endswith(".pbo"):
 			temp_name = re.sub('(?:[.](.*)|_[vV]([0-9]+(.*))?)', '', file)
-			folder_missions.append(temp_name)
+			world_name = file.split('.')[1]
+			print(world_name)
+			folder_missions.append([temp_name, world_name])
 
 	return folder_missions
 
