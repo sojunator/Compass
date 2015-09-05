@@ -6,6 +6,7 @@ import re
 
 from app.database.database import Mission
 from app import db
+from app import app
 
 
 class MissionData:
@@ -62,13 +63,12 @@ class PBO:
 
 		self.name = os.path.basename(pbo.filename)
 
-		if valid_name(name):
-			self.mission = MissionData(name, 0)
-			pbo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		if self.valid_name(self.name):
+			self.mission = MissionData(self.name, 0)
+			pbo.save(os.path.join(app.config['UPLOAD_FOLDER'], pbo.filename))
 		else:
 			raise
 
-
 	def valid_name(self, name):
-		return (True if	re.search('ark+_[a-z]+[0-9]+_.+[.].+[.]pbo', filename)
+		return (True if	re.search('ark+_[a-z]+[0-9]+_.+[.].+[.]pbo', name)
 				else False)
