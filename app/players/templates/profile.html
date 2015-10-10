@@ -2,58 +2,71 @@
 <html lang="en">
 <head>
     <title>{{player.player_name}}'s profile</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simple.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 </head>
 <body>
-
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-      <h1>{{player.player_name}}'s profile</h1>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid"
-        <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-             <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions<span class="sr-only">(current)</span></a></li>
-                    <li><a href="{{url_for('players.display_players')}}">Players</a></li>
-                    <li class="active"><a href="{{url_for('missions.display_missions')}}"}}>Missions<span class="sr-only">(current)</span></a></li>
-             </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>    
-        <table class="table table-bordered table-hover">
-            <tr>
-                <td class="nowrap">Rank:</td>
-                <td class="nowrap">{{player.player_rank}}</td>
-            </tr>            
-            <tr>
-                <td class="nowrap">UID:</td>
-                <td class="nowrap">{{player.player_uid}}</td>
-            </tr>
-            <tr>
-                <td class="nowrap">Deaths/lives:</td>
-                <td class="nowrap">{{player.deaths}}/{{player.missions_played}}</td>
-            </tr>
-            <tr>
-                <td class="nowrap">Leadership/lives:</td>
-                <td class="nowrap">{{player.played_leader}}/{{player.missions_played}}</td>
-            </tr>
-            <tr>
-                <td class="nowrap">Last session:</td>
-                <td class="nowrap">
-                    <a href="{{url_for('sessions.display_session', year=player.last_played.year, week=player.last_played.isocalendar()[1]) }}">
-                        {{ player.last_played.year }} / {{ player.last_played.isocalendar()[1] }}
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td class="nowrap">{% pie_chart data with id='chart-1' height='400px' %}</td>
-            </tr>
-        </table>
+<div class="container">
+    <div class="header">
+        <div class="navigation">
+            <div class="navigation-button"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions</a></div>
+            <div class="navigation-button profile active"><a href="{{ url_for('players.display_players') }}">Players</a> / {{player.player_name}}</div>
+            <div class="navigation-button"><a href="{{url_for('missions.display_missions')}}"}}>Missions</a></div>
+            </ul>
+        </div>
     </div>
-    
+    <div class="content">
+        <div class="profile-stats">
+            <div class="field-content">
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Rank:</span>
+                        <span class="value">{{ player.player_rank }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">UID:</span>
+                        <span class="value">{{ player.player_uid }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Deaths / played:</span>
+                        <span class="value" title="{{ '%.2f' % (player.deaths / player.missions_played * 100) }} %">{{ player.deaths }} / {{ player.missions_played }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Leadership / played:</span>
+                        <span class="value" title="{{ '%.2f' % (player.played_leader / player.missions_played * 100) }} %">{{ player.played_leader }} / {{ player.missions_played }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <span class="label">Last session:</span>
+                        <span class="value">
+                            <a href="{{url_for('sessions.display_session', year=player.last_played.year, week=player.last_played.isocalendar()[1]) }}">
+                                {{ player.last_played.year }} / {{ player.last_played.isocalendar()[1] }}
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="charts">
+            <div class="chart">
+                <div class="chart-header">
+                    <span>Role distribution</span>
+                </div>
+                <div class="chart-content" >
+                    {% pie_chart data with id='chart-1' height='400px' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>

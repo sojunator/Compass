@@ -4,10 +4,11 @@
     <title>Arma 2 players</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/simple.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.23.3/js/jquery.tablesorter.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='chartkick.js') }}"></script>
-    <script src="{{ url_for('static', filename='sortTable.js') }}"></script>
     <script src="{{ url_for('static', filename='js/players.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 </head>
 <body>
 <div class="container">
@@ -25,7 +26,7 @@
                 <div class="chart-header">
                     <span>Rank distribution</span>
                 </div>
-                <div class="chart-content">
+                <div class="chart-content hidden">
                     {% pie_chart data with id='chart-1' height='400px' %}
                 </div>
             </div>
@@ -34,19 +35,50 @@
             <table id="players" class="players">
                 <thead>
                     <tr>
-                        <th class="text-left">Username</th>
-                        <th class="text-center">Rank</th>
-                        <th class="text-center">Played</th>
-                        <th class="text-center">Last played</th>
-                        <th class="text-left">Staff note</th>
+                        <th class="text-left">
+                            Username
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Rank
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Played
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Last played
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-left">
+                            Staff note
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
                         <th class=""></th>
                     <tr>
                 </thead>
                 <tbody>
                 {% for player in players %}  
-                    <tr class="{{player.return_danger()}} {{player.player_rank}}" >
+                    <!--<tr class="{{player.return_danger()}} {{player.player_rank}}" >-->
+                    <tr>
                         <td class="username text-left"><a href="{{url_for('players.display_one_player', username=player.player_name)}}">{{player.player_name}}</a></td>
-                        <td class="rank text-center">{{player.player_rank}}</td>
+                        <td class="rank text-center {{ player.player_rank }}">{{ player.player_rank }}</td>
                         <td class="played text-center">{{player.missions_played}}</td>
                         <td class="last-played text-center" title="{{ player.last_played.date() }}">
                             {{ 'today' if (today - player.last_played.date()).days <= 0 else (today - player.last_played.date()).days ~ ' days ago' }}

@@ -15,6 +15,7 @@ $('document').ready(function() {
             data: JSON.stringify(note)
         }).done(function() {
             $value.text(note);
+            $('#players').trigger('update');
             cancelNoteEditing($value, $edit, $update, $cancel);
         }).fail(function() {
             console.log('fail');
@@ -64,23 +65,17 @@ $('document').ready(function() {
         });
     }
 
-    function chartInit() {
-        $('.charts > .chart').each(function() {
-            var $header = $(this).find('.chart-header'),
-                $content = $(this).find('.chart-content');
-            $header.click(function() {
-                if ($content.is(':visible')) {
-                    $content.hide();
-                } else {
-                    $content.show();
-                }
-            });
+    function initTableSorter() {
+        $('#players').tablesorter({
+            cssAsc: 'asc',
+            cssDesc: 'desc',
+            cssHeader: 'no-sort'
         });
     }
 
     function init() {
         noteInit();
-        chartInit();
+        initTableSorter();
     }
 
     init();
