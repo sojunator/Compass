@@ -12,6 +12,7 @@ from app.login.routes import requires_auth
 import time
 import collections
 import json
+import datetime
 
 mod_players = Blueprint('players', __name__, url_prefix='/players',
                        template_folder='templates')
@@ -34,24 +35,21 @@ def display_players():
     for rank in ranks:
         data[rank] = (data[rank] + 1)
 
-    return render_template('players.html', players=players_in_database, data=data)
+    return render_template('players.html', players=players_in_database, data=data, today=datetime.date.today())
 
-@mod_players.route('/submit/<username>', methods=['POST'])
+@mod_players.route('/note/<username>', methods=['PUT'])
 @requires_auth
 def submit_notes(username):
     if username is None:
-        return redirect(url_for('.display_players'))
-    
-    notes = request.form['notes']
-
+        return 'No username was given!', 404
+    notes = request.json
     player = db.session.query(CmpPlayer).filter(CmpPlayer.player_name == username).first()
-    
+    if player is None:
+        return 'Username not found!', 404
     player.staff_notes = notes
-    
     db.session.commit()
-    
-    return redirect(url_for('.display_players'))
-        
+    return '', 201
+
 
 @mod_players.route('/<username>')
 @requires_auth

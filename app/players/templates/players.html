@@ -2,57 +2,101 @@
 <html lang="en">
 <head>
     <title>Arma 2 players</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simple.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.23.3/js/jquery.tablesorter.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='chartkick.js') }}"></script>
-    <script src="{{ url_for('static', filename='sortTable.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/players.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 </head>
 <body>
-
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-    <h1>Arma 2 players</h1>    
-    <nav class="navbar navbar-default">
-        <div class="container-fluid"
-        <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-             <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions<span class="sr-only">(current)</span></a></li>
-                    <li><a href="{{url_for('players.display_players')}}">Players</a></li>
-                    <li class="active"><a href="{{url_for('missions.display_missions')}}"}}>Missions<span class="sr-only">(current)</span></a></li>
-             </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>    
-        {% pie_chart data with id='chart-1' height='400px' %}
-        <table class="table table-bordered table-hover sortable table-condensed">
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Rank</th>
-                <th>Missions played</th>
-                <th>Last played</th>
-                <th>Staff notes</th>
-            </tr>
-        </thead>
-        {% for player in players %}  
-            <tr class="{{player.return_danger()}} {{player.player_rank}}" >
-                <td width="14%"><a href="{{url_for('players.display_one_player', username=player.player_name)}}"> {{player.player_name}}</a></td>
-                <td>{{player.player_rank}}</td>
-                <td>{{player.missions_played}}</td>
-                <td>{{player.last_played.date()}}</td>
-                <td><form action="{{url_for('players.submit_notes', username=player.player_name)}}" name="notesform" method="post">
-                    <textarea rows="1" cols="30" name="notes" class="form-control">{{player.staff_notes}}</textarea>
-                    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
-                </td></form>
-            </tr>
-        {% endfor %}
-        </table>
+<div class="container">
+    <div class="header">
+        <div class="navigation">
+            <div class="navigation-button"><a href="{{url_for('sessions.get_sessions')}}"}}>Sessions</a></div>
+            <div class="navigation-button active"><a href="{{url_for('players.display_players')}}">Players</a></div>
+            <div class="navigation-button"><a href="{{url_for('missions.display_missions')}}"}}>Missions</a></div>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-3"></div>
+    <div class="content">
+        <div class="charts">
+            <div class="chart">
+                <div class="chart-header">
+                    <span>Rank distribution</span>
+                </div>
+                <div class="chart-content hidden">
+                    {% pie_chart data with id='chart-1' height='400px' %}
+                </div>
+            </div>
+        </div>
+        <div>
+            <table id="players" class="players">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            Username
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Rank
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Played
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-center">
+                            Last played
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class="text-left">
+                            Staff note
+                            <span class="sort-icons">
+                                <img class="asc" width="10" src="{{ url_for('static', filename='icon/asc.png') }}"/>
+                                <img class="desc" width="10" src="{{ url_for('static', filename='icon/desc.png') }}"/>
+                            </span>
+                        </th>
+                        <th class=""></th>
+                    <tr>
+                </thead>
+                <tbody>
+                {% for player in players %}  
+                    <!--<tr class="{{player.return_danger()}} {{player.player_rank}}" >-->
+                    <tr>
+                        <td class="username text-left"><a href="{{url_for('players.display_one_player', username=player.player_name)}}">{{player.player_name}}</a></td>
+                        <td class="rank text-center {{ player.player_rank }}">{{ player.player_rank }}</td>
+                        <td class="played text-center">{{player.missions_played}}</td>
+                        <td class="last-played text-center" title="{{ player.last_played.date() }}">
+                            {{ 'today' if (today - player.last_played.date()).days <= 0 else (today - player.last_played.date()).days ~ ' days ago' }}
+                        </td>
+                        <td class="note text-left">
+                            <span class="note-value" data-username="{{ player.player_name }}">{{ player.staff_notes }}</span>
+                            <span class="note-edit" style="display: none;"><input name="note" value="{{ player.staff_notes }}"/></span>
+                        </td>
+                        <td class="operations">
+                            <button class="update" style="display: none;">Update</button>
+                            <button class="cancel" style="display: none;">Cancel</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
